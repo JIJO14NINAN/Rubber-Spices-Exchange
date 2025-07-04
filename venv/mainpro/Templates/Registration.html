@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'Registration.css' %}">
+    <style>
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #f2f0f0;
+            z-index: 1000;
+        }
+
+        nav .links {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #f2f0f0;
+            font-size: 18px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+            color: #ffcc00;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+     <nav>
+        <div class="links" style="font-family: 'Times New Roman', Times, serif;">
+            <a href="{% url 'index' %}">Home</a>
+        </div>
+        </nav>
+    <div class="container">
+        <h2>Register</h2>
+        <form action="{% url 'reg' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter full name" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter email" required>
+            </div>
+            <div class="form-group">
+                <label for="pho">Phone Number</label>
+                <input type="tel" id="pho" name="pho" pattern="[0-9]{10}" maxlength="10"
+                    placeholder="Enter phone number" required title="Enter a 10-digit phone number (0-9)">
+            </div>
+            <div class="form-group">
+                <label for="addr">Address</label>
+                <textarea id="addr" name="addr" placeholder="Enter address" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="loc">Location</label>
+                <select id="loc" name="loc" required>
+                    <option value="">Select Location</option>
+                    <option value="Kottayam">Kottayam</option>
+                    <option value="Edukki">Edukki</option>
+                    <option value="Pathanamthitta">Pathanamthitta</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="uname">Username</label>
+                <input type="text" id="uname" name="uname" placeholder="Enter username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="pswd" name="pswd" placeholder="Enter the password" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</body>
+
+</html>

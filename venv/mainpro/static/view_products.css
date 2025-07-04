@@ -1,0 +1,88 @@
+/* Professional Navbar Styles */
+.navbar-custom {
+    background: linear-gradient(90deg, #2d6a4f 0%, #40916c 100%);
+    border-radius: 0 0 18px 18px;
+    padding: 0.7rem 0;
+}
+.navbar-brand {
+    color: #fff !important;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+}
+.navbar-brand img {
+    border-radius: 50%;
+    background: #fff;
+    padding: 2px;
+}
+.nav-link {
+    color: #fff !important;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.2s;
+    margin-right: 0.5rem;
+}
+.nav-link:hover, .nav-link.active {
+    color: #b7e4c7 !important;
+    text-decoration: underline;
+}
+.btn-outline-light {
+    border-radius: 20px;
+    border-width: 2px;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+}
+.btn-outline-light:hover {
+    background: #fff;
+    color: #2d6a4f !important;
+    border-color: #fff;
+}
+@media (max-width: 991px) {
+    .navbar-custom {
+        border-radius: 0;
+    }
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+}
+/* Product card styles */
+.card {
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+    transition: transform 0.2s;
+    background: #fff;
+}
+.card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(44, 62, 80, 0.16);
+}
+.card-img-top {
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+    height: 220px;
+    object-fit: cover;
+}
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2d6a4f;
+}
+.card-text {
+    color: #495057;
+}
+.btn-primary {
+    background: #2d6a4f;
+    border: none;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+.btn-primary:hover {
+    background: #40916c;
+}
+@media (max-width: 767px) {
+    .card-img-top {
+        height: 160px;
+    }
+}

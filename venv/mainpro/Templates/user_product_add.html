@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'user_product_add.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Add Products</h1>
+        <form action="{% url 'user_add_product' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="cat">Category Name</label><br>
+                <select id="cat" name="cat" onchange="updateSubcategories()" required>
+                    <option value="">Select Category</option>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.cname }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="subcat">Subcategory</label><br>
+                <select id="subcat" name="subcat" required>
+                    <option value="">Select Subcategory</option>
+                    {% for subcat in subcategories %}
+                    <option value="{{ subcat.id }}" data-category="{{ subcat.cid.id }}">{{ subcat.scname }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="quantity">Quantity</label>
+                <input type="number" name="quantity" id="quantity" required>
+            </div>
+            <div class="form-group">
+                <label for="image">Image</label>
+                <input type="file" name="image" id="image" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add" name="add" id="add">
+            </div>
+        </form>
+    </div>
+    <script>
+        function updateSubcategories() {
+            const categoryId = document.getElementById("cat").value;
+            const subcatSelect = document.getElementById("subcat");
+            const options = subcatSelect.querySelectorAll("option[data-category]");
+
+            // Always show the "Select Subcategory" option
+            subcatSelect.querySelector('option[value=""]').style.display = "";
+
+            // Show/hide subcategories based on selected category
+            options.forEach(opt => {
+                if (!categoryId || opt.getAttribute("data-category") === categoryId) {
+                    opt.style.display = "";
+                } else {
+                    opt.style.display = "none";
+                }
+            });
+
+            // Reset subcategory selection
+            subcatSelect.value = "";
+        }
+        window.onload = updateSubcategories;
+    </script>
+
+    <!-- <script>
+        function updateSubcategories() {
+            const category = document.getElementById("cat").value;
+            const subcat = document.getElementById("subcat");
+
+            // Clear existing options
+            subcat.innerHTML = "";
+
+            // Define subcategories based on the selected category
+            let options = [];
+            if (category === "Rubber") {
+                options = ["Rubber Sheet", "Rubber Latex Ottupal"];
+            } else if (category === "Spices") {
+                options = ["Pepper", "Coffee Beans", "Cloves", "Ginger", "Turmeric", "Mace-spice"];
+            }
+
+            // Populate subcategories
+            options.forEach(option => {
+                const opt = document.createElement("option");
+                opt.value = option;
+                opt.textContent = option;
+                subcat.appendChild(opt);
+            });
+        }
+    </script> -->
+</body>
+
+</html>

@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            background-image: url('{% static "spices-frame.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            margin: 0;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #f2f0f0;
+            z-index: 1000;
+        }
+
+        nav .links {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #f2f0f0;
+            font-size: 18px;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+            color: #ffcc00;
+            transform: scale(1.1);
+        }
+
+        .auth-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .content {
+            text-align: center;
+            color: #f2f0f0;
+            margin-top: 100px;
+            /* To avoid overlap with the navbar */
+        }
+
+        /* Animation for the heading */
+        .animated-heading {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffcc00;
+            /* Professional golden color */
+            text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #ff9900, 0 0 40px #ff9900;
+            animation: bling 2s infinite, fadeIn 1.5s ease-in-out;
+        }
+
+        /* Bling effect */
+        @keyframes bling {
+            0% {
+                text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #ff9900, 0 0 40px #ff9900;
+            }
+
+            50% {
+                text-shadow: 0 0 20px #ffcc00, 0 0 30px #ff9900, 0 0 40px #ff6600, 0 0 50px #ff3300;
+            }
+
+            100% {
+                text-shadow: 0 0 10px #ffcc00, 0 0 20px #ffcc00, 0 0 30px #ff9900, 0 0 40px #ff9900;
+            }
+        }
+
+        /* Fade-in effect */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        p {
+            margin: 20px 0;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #f2f0f0;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 14px;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+
+        footer a {
+            color: #ffcc00;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="links" style="font-family: 'Times New Roman', Times, serif;">
+            <a href="">Home</a>
+            <a href="">About</a>
+            <a href="">Services</a>
+            <a href="">Contact</a>
+        </div>
+        <div class="auth-links">
+            <a href="{% url 'reg' %}">Register</a>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+    </nav>
+    <div class="content">
+        <h1>Welcome to Our Website</h1>
+        <h1 class="animated-heading">Rubber & Spices Management</h1>
+        <p>Explore our services and get started today!</p>
+    </div>
+    <!-- ...existing code... -->
+    <footer>
+        <p>
+            &copy; 2025 Rubber & Spices. All Rights Reserved. |
+            <a href="#privacy-policy" onclick="showSection('privacy')">Privacy Policy</a> |
+            <a href="#terms-service" onclick="showSection('terms')">Terms of Service</a>
+        </p>
+    </footer>
+
+    <!-- Hidden sections for policy and terms -->
+    <div id="policy-terms-container"
+        style="display:none; background:rgba(0,0,0,0.85); color:#fff; padding:30px 20px; position:fixed; left:0; right:0; bottom:0; z-index:2000;">
+        <div id="privacy-section" style="display:none;">
+            <h3>Privacy Policy</h3>
+            <p>We value your privacy. All user data is securely stored and used solely for transaction facilitation and
+                user verification. We do not share your personal information with third parties.</p>
+        </div>
+        <div id="terms-section" style="display:none;">
+            <h3>Terms of Service</h3>
+            <p>By using the Rubber & Spice Exchange, users agree to abide by our trading rules, provide accurate
+                information, and refrain from fraudulent activity. Admins reserve the right to suspend or terminate
+                accounts for policy violations.</p>
+        </div>
+        <button onclick="hideSection()"
+            style="margin-top:15px; background:#ffcc00; color:#000; border:none; padding:8px 18px; border-radius:4px; cursor:pointer;">Close</button>
+    </div>
+
+    <script>
+        function showSection(type) {
+            document.getElementById('policy-terms-container').style.display = 'block';
+            document.getElementById('privacy-section').style.display = (type === 'privacy') ? 'block' : 'none';
+            document.getElementById('terms-section').style.display = (type === 'terms') ? 'block' : 'none';
+            setTimeout(function () {
+                document.getElementById('policy-terms-container').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+        function hideSection() {
+            document.getElementById('policy-terms-container').style.display = 'none';
+        }
+    </script>
+    <!-- ...existing code... -->
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f3f4f6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+
+select, input[type="number"], input[type="file"], input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+select:focus, input[type="number"]:focus, input[type="file"]:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: #fff;
+}
+
+input[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+input[type="submit"]:active {
+    background-color: #004080;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
+    .form-group {
+        margin-bottom: 15px;
+    }
