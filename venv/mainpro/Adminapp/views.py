@@ -175,6 +175,24 @@ def admin_add_product(request):
         template = loader.get_template("admin_add_product.html")
         context = {'categories': categories}
         return HttpResponse(template.render(context, request))       
+    
+
+# def added_products(request):
+#     products = Admin_Products.objects.all()
+#     return render(request, 'added_products.html', {'products': products})
+
+def added_products(request):
+    products = Admin_Products.objects.all().order_by('-id')  # Latest first
+    product_list = []
+    for product in products:
+        product_list.append({
+            'added_date': product.created_at if hasattr(product, 'created_at') else product.id,  # Use created_at if available
+            'product_name': product.pname,
+            'rate': product.rate,
+            'qty': f"{product.qty_in_gm} gm" if product.qty_in_gm else f"{product.qty_in_kg} kg" if hasattr(product, 'qty_in_kg') else "",
+        })
+    return render(request, 'added_products.html', {'products': product_list})
+
 
 def view_product(request):
     if request.method == 'POST':

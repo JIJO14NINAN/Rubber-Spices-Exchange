@@ -106,6 +106,37 @@
             margin: 20px 0;
         }
 
+        .center-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 38px;
+        }
+
+        .main-btn {
+            display: inline-block;
+            padding: 14px 38px;
+            font-size: 20px;
+            font-weight: 600;
+            color: #222;
+            background: linear-gradient(90deg, #ffcc00 0%, #ffb300 100%);
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(255, 204, 0, 0.12);
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            letter-spacing: 1px;
+        }
+
+        .main-btn:hover {
+            background: linear-gradient(90deg, #ffb300 0%, #ffcc00 100%);
+            color: #000;
+            transform: scale(1.07);
+            box-shadow: 0 4px 18px rgba(255, 204, 0, 0.18);
+            text-decoration: none;
+        }
+
         footer {
             background-color: rgba(0, 0, 0, 0.8);
             color: #f2f0f0;
@@ -138,17 +169,16 @@
             <a href="">Services</a>
             <a href="">Contact</a>
         </div>
-        <div class="auth-links">
-            <a href="{% url 'reg' %}">Register</a>
-            <a href="{% url 'login' %}">Login</a>
-        </div>
     </nav>
     <div class="content">
         <h1>Welcome to Our Website</h1>
         <h1 class="animated-heading">Rubber & Spices Management</h1>
         <p>Explore our services and get started today!</p>
+        <div class="center-buttons">
+            <a href="{% url 'reg' %}" class="main-btn">Register</a>
+            <a href="{% url 'login' %}" class="main-btn">Login</a>
+        </div>
     </div>
-    <!-- ...existing code... -->
     <footer>
         <p>
             &copy; 2025 Rubber & Spices. All Rights Reserved. |
