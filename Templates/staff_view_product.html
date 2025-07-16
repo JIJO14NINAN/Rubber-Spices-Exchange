@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff View Product</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'staff_view_product.css' %}">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">User and Product Details</h2>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+            <tbody>
+                {% for item in product_details %}
+                <tr>
+                    <td>{{ item.user.name }}</td>
+                    <td>{{ item.user.pho }}</td>
+                    <td>{{ item.user.addr }}</td>
+                    <td>{{ item.product.scid.scname }}</td>
+                    <td>{{ item.product.qty_in_kg }}</td>
+                    <td>{{ item.product.location }}</td>
+                    <td>
+                        <a href="{% url 'staff_finished_task' item.product.id %}"
+                            class="btn btn-primary btn-sm">Update</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center">No assigned tasks.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center mt-4">
+        <a href="{% url 'staffhome' %}" class="btn btn-secondary">Back to Home</a>
+    </div>
+</body>
+
+</html>

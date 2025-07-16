@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/6/2Q4d7z4e5c5e5e5e5e5e5e5e5e5e5e5e5" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'orders.css' %}">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Order Details</h2>
+        <!-- <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Rate</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="path/to/image.jpg" alt="Product Image" height="100" width="100"></td>
+                    <td><input type="text" name="name" value="Product Name" readonly></td>
+                    <td><input type="text" name="rate" value="100" readonly></td>
+                    <td><input type="number" value="1" min="1" class="quantity-input" style="width: 60px; text-align: center;" name="qty" readonly></td>
+                    <td><span class="total-price">Total: $100</span></td>
+                </tr>
+            </tbody>
+        </table> -->
+        <div class="mt-4">
+            <h4>Shipping Details</h4>
+            <form method="post" action="{% url }">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address</label>
+                    <textarea class="form-control" id="address" name="address" rows="3" placeholder="Enter your address" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
+                </div><br><br>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success">Confirm Order</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
