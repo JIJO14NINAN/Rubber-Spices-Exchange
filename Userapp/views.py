@@ -6,7 +6,7 @@ from .models import  User_Products
 # Create your views here.
 
 def userhome(request):
-    template=loader.get_template('userhome.html')
+    template=loader.get_template('Userapp/userhome.html')
     context={}
     return HttpResponse(template.render(context,request))
 
@@ -51,7 +51,7 @@ def user_add_product(request):
     else:
         categories = Cattegory.objects.all()
         subcategories = Subcattegory.objects.all()
-        return render(request, 'user_product_add.html', {'categories': categories, 'subcategories': subcategories})
+        return render(request, 'Userapp/user_product_add.html', {'categories': categories, 'subcategories': subcategories})
 
 
 from Adminapp.models import Login
@@ -62,7 +62,7 @@ def user_add_products_view(request):
     context = {
         'users': users,
     }
-    return render(request, 'user_add_products_view.html', context)
+    return render(request, 'Userapp/user_add_products_view.html', context)
 
 def user_add_products_view1(request, user_id):
     user = Reg.objects.get(id=user_id)
@@ -74,7 +74,7 @@ def user_add_products_view1(request, user_id):
         'products': products,
         'staffs': staffs,
     }
-    return render(request, 'user_add_products_view1.html', context)
+    return render(request, 'Userapp/user_add_products_view1.html', context)
 # from Adminapp.models import Login
 
 # def user_add_products_view(request):
@@ -137,21 +137,9 @@ def user_add_products_view1(request, user_id):
 from Adminapp.models import Admin_Products
 def view_products(request):
     products = Admin_Products.objects.all()
-    template = loader.get_template("view_products.html")
+    template = loader.get_template("Userapp/view_products.html")
     context = {'products': products}
     return HttpResponse(template.render(context, request))
 
 
-def product_details_view(request,id):
-    template=loader.get_template("product_details_view.html")
-    product = Admin_Products.objects.get(id=id)
-    context = {'product': product}
-    return HttpResponse(template.render(context, request))
-
-
 from datetime import date
-from django.db import transaction   
-from Adminapp.models import Cart
-
-def admin_all_user_orders(request):
-    return render(request, 'admin_all_user_orders.html')

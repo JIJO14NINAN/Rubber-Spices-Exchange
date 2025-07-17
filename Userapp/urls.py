@@ -23,13 +23,10 @@ import Adminapp.views as Adminapp_views
 urlpatterns = [
     path('user_add_product/',Userapp.views.user_add_product,name='user_add_product'),
     path('user_add_products_view/',Userapp.views.user_add_products_view,name='user_add_products_view'),
-    path('product_details_view/<int:id>/', Userapp.views.product_details_view, name='product_details_view'),
     path('user_add_products_view/', Userapp.views.user_add_products_view, name='user_add_products_view'),
     path('user_add_products_view1/<int:user_id>/', Userapp.views.user_add_products_view1, name='user_products'),
-    path('admin_all_user_orders/', Userapp.views.admin_all_user_orders, name='admin_all_user_orders'),
     path('userhome/', Userapp.views.userhome, name='userhome'),
     path('view_products/', Userapp.views.view_products, name='view_products'),
     path('logout/', Adminapp_views.logout, name='logout'),
-
 ]
 

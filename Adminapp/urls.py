@@ -34,8 +34,5 @@ urlpatterns = [
     path('admin_add_product/',Adminapp.views.admin_add_product,name='admin_add_product'),
     path('view_product/',Adminapp.views.view_product,name='view_product'),
     path('admin_add_staff/',Adminapp.views.admin_add_staff,name='admin_add_staff'),
-    path('orders_details_view/',Adminapp.views.orders_details_view,name='orders_details_view'),
     path('logout/', Adminapp.views.logout, name='logout'),
-   
-
 ]

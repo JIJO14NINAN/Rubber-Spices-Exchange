@@ -33,10 +33,3 @@ class Admin_Products(models.Model):
     img=models.FileField(upload_to='file')
     rate=models.CharField(max_length=10)
     qty_in_gm=models.CharField(max_length=10)
-
-class Cart(models.Model):
-    uid=models.ForeignKey(Reg,on_delete=models.CASCADE)
-    pid=models.ForeignKey(Admin_Products,on_delete=models.CASCADE)
-    no_of_items=models.IntegerField(max_length=10)
-    total=models.IntegerField(max_length=10)
-

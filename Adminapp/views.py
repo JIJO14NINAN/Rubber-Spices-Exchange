@@ -63,7 +63,7 @@ def login(request):
         return HttpResponse(template.render(context, request))
 
 def adminhome(request):
-    template=loader.get_template("adminhome.html")
+    template=loader.get_template("Adminapp/adminhome.html")
     context={}
     return HttpResponse(template.render(context,request))
 
@@ -89,7 +89,7 @@ def view_user(request):
         else:
             message = "User not found."
         users = Reg.objects.all()
-        return render(request, 'view_users_admin.html', {'users': users, 'message': message})
+        return render(request, 'Adminapp/view_users_admin.html', {'users': users, 'message': message})
 
     else:
         users = Reg.objects.all()
@@ -132,7 +132,7 @@ def admin_add_staff(request):
         send_mail(subject, message, email_from, recipient_list)
         return HttpResponse("<script>alert('Staff added successfully!');window.location='/adminhome/';</script>")
     else:
-        template = loader.get_template("admin_add_staff.html")
+        template = loader.get_template("Adminapp/admin_add_staff.html")
         context = {}
         return HttpResponse(template.render(context, request))
     
@@ -144,7 +144,7 @@ def admin_add_category(request):
         Subcattegory.objects.create(cid=category, scname=scname)
         return HttpResponse("<script>alert('Category and Subcategory added successfully!');window.location='/adminhome/';</script>")
     else:
-        template = loader.get_template("admin_add_category.html")
+        template = loader.get_template("Adminapp/admin_add_category.html")
         context = {}
         return HttpResponse(template.render(context, request))     
 
@@ -172,7 +172,7 @@ def admin_add_product(request):
         return HttpResponse("<script>alert('Product added successfully!');window.location='/adminhome/';</script>")
     else:
         categories = Cattegory.objects.all()
-        template = loader.get_template("admin_add_product.html")
+        template = loader.get_template("Adminapp/admin_add_product.html")
         context = {'categories': categories}
         return HttpResponse(template.render(context, request))       
     
@@ -214,14 +214,6 @@ def view_product(request):
         products = Admin_Products.objects.all()
         return render(request, 'view_products.html', {'products': products})
     
-
-
-def orders_details_view(request):
-    template=loader.get_template("orders_details_view.html")
-    context={}
-    return HttpResponse(template.render(context,request))
-
-
 from django.shortcuts import redirect
 
 from django.shortcuts import redirect

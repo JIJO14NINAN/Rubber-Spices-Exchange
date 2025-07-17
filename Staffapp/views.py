@@ -6,7 +6,7 @@ from .models import Staff
 # Create your views here.
 
 def staffhome(request):
-    template = loader.get_template('staffhome.html')
+    template = loader.get_template('Staffapp/staffhome.html')
     context = {}
     return HttpResponse(template.render(context, request))
 
@@ -42,7 +42,7 @@ def staff_view_product(request):
         'product_details': product_details,
         'staff': staff,
     }
-    return render(request, "staff_view_product.html", context)
+    return render(request, "Staffapp/staff_view_product.html", context)
 
 
 from django.shortcuts import redirect
@@ -55,7 +55,7 @@ def staff_finished_task(request, product_id):
         messages.success(request, "Task Finished Successfully")
     except User_Products.DoesNotExist:
         messages.error(request, "Task not found.")
-    return redirect('staff_view_product')
+    return redirect('Staffapp/staff_view_product')
 
 # def staff_finished_task(request, product_id):
 #     if request.method == "POST":
