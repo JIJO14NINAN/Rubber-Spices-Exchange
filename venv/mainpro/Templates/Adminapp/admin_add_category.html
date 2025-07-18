@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Category</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'Adminapp/css/admin_add_category.css' %}">
+    <script>
+        function updateSubcategories() {
+            const category = document.getElementById("cat").value;
+            const subcat = document.getElementById("subcat");
+
+            // Clear existing options
+            subcat.innerHTML = "";
+
+            // Define subcategories based on the selected category
+            let options = [];
+            if (category === "Rubber") {
+                options = ["Rubber Sheet", "Rubber Latex Ottupal"];
+            } else if (category === "Spices") {
+                options = ["Pepper", "Coffee Beans", "Cloves", "Ginger", "Turmeric", "Cardamom", "Mace-spice"];
+            }
+
+            // Populate subcategories
+            options.forEach(option => {
+                const opt = document.createElement("option");
+                opt.value = option;
+                opt.textContent = option;
+                subcat.appendChild(opt);
+            });
+        }
+    </script>
+</head>
+<body>
+    <form action="{% url 'admin_add_category' %}" method="POST">
+        {% csrf_token %}
+        <label for="cat">Category Name</label><br>
+        <select id="cat" name="cat" onchange="updateSubcategories()" required>
+            <option value="">Select Category</option>
+            <option value="Rubber">Rubber</option>
+            <option value="Spices">Spices</option>
+        </select><br><br>
+
+        <label for="subcat">Subcategory</label><br>
+        <select id="subcat" name="subcat" required>
+            <option value="">Select Subcategory</option>
+        </select><br><br>
+
+        <button type="submit">Add Category</button>
+    </form>
+</body>
+</html>

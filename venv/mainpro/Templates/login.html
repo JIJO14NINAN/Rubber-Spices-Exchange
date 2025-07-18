@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffe082 60%, #fffde4 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Decorative circles for professional look */
+        .circle-bg {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.18;
+            z-index: 0;
+        }
+
+        .circle1 {
+            width: 340px;
+            height: 340px;
+            background: #ffcc00;
+            top: -80px;
+            left: -80px;
+        }
+
+        .circle2 {
+            width: 220px;
+            height: 220px;
+            background: #ffb300;
+            bottom: -60px;
+            right: -60px;
+        }
+
+        .circle3 {
+            width: 120px;
+            height: 120px;
+            background: #fffde4;
+            top: 60px;
+            right: 40px;
+        }
+
+        .login-container {
+            background: #fff;
+            padding: 38px 32px 28px 32px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13);
+            width: 100%;
+            max-width: 350px;
+            min-width: 260px;
+            margin: 0 auto;
+            z-index: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #444;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+            background: #f9f9f9;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #ffcc00;
+            outline: none;
+            background: #fff;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            background: linear-gradient(90deg, #ffcc00 0%, #ffb300 100%);
+            color: #222;
+            border: none;
+            border-radius: 7px;
+            padding: 12px 0;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(255, 204, 0, 0.08);
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+
+        button[type="submit"]:hover {
+            background: linear-gradient(90deg, #ffb300 0%, #ffcc00 100%);
+        }
+
+        @media (max-width: 500px) {
+            .login-container {
+                margin: 40px 8px;
+                padding: 18px 10px;
+            }
+
+            .circle1,
+            .circle2,
+            .circle3 {
+                display: none;
+            }
+        }
+
+        @media (max-width: 400px) {
+            h2 {
+                font-size: 20px;
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                font-size: 14px;
+            }
+
+            button[type="submit"] {
+                font-size: 15px;
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="circle-bg circle1"></div>
+    <div class="circle-bg circle2"></div>
+    <div class="circle-bg circle3"></div>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="post" action="{% url 'login' %}" style="width:100%;">
+            {% csrf_token %}
+            <div style="margin-bottom: 15px;">
+                <label for="username">Username:</label>
+                <input type="text" name="username" required>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="password">Password:</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+
+</html>
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh;">
+
+    <div style="background-color: white; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+        <h2 style="text-align: center;">Login</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div style="margin-bottom: 15px;">
+                <label for="username" style="display: block; margin-bottom: 5px;">Username:</label>
+                <input type="text" name="username" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="password" style="display: block; margin-bottom: 5px;">Password:</label>
+                <input type="password"  name="password" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+            <button type="submit" style="width: 100%; padding: 10px; background-color: #5cb85c; color: white; border: none; border-radius: 4px; cursor: pointer;">Login</button>
+        </form>
+    </div> -->
+
+<!-- <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(120deg, #ffcc00 0%, #ffb300 60%, #fffde4 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: #fff;
+            padding: 32px 28px 24px 28px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            min-width: 320px;
+            width: 100%;
+            max-width: 370px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #444;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+            background: #f9f9f9;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #ffcc00;
+            outline: none;
+            background: #fff;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            background: linear-gradient(90deg, #ffcc00 0%, #ffb300 100%);
+            color: #222;
+            border: none;
+            border-radius: 7px;
+            padding: 12px 0;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(255, 204, 0, 0.08);
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+
+        button[type="submit"]:hover {
+            background: linear-gradient(90deg, #ffb300 0%, #ffcc00 100%);
+        }
+
+        @media (max-width: 500px) {
+            .login-container {
+                margin: 40px 8px;
+                padding: 18px 10px;
+            }
+        }
+        @media (max-width: 400px) {
+            h2 {
+                font-size: 20px;
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                font-size: 14px;
+            }
+
+            button[type="submit"] {
+                font-size: 15px;
+            }
+        }
+        body {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div style="margin-bottom: 15px;">
+                <label for="username">Username:</label>
+                <input type="text" name="username" required>
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="password">Password:</label>
+                <input type="password" name="password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+
+</html> --> -->
