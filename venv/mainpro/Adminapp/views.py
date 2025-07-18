@@ -222,7 +222,6 @@ def orders_details_view(request):
     return HttpResponse(template.render(context,request))
 
 
-from django.shortcuts import redirect
 
 from django.shortcuts import redirect
 

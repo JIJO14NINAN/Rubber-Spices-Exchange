@@ -15,7 +15,7 @@ def userhome(request):
 
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import User_Products
+from .models import User_Product
 from Adminapp.models import Cattegory, Subcattegory, Reg
 from datetime import date
 
