@@ -1,0 +1,244 @@
+ body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffe082 60%, #fffde4 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Decorative circles for professional look */
+        .circle-bg {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.18;
+            z-index: 0;
+        }
+
+        .circle1 {
+            width: 340px;
+            height: 340px;
+            background: #ffcc00;
+            top: -80px;
+            left: -80px;
+        }
+
+        .circle2 {
+            width: 220px;
+            height: 220px;
+            background: #ffb300;
+            bottom: -60px;
+            right: -60px;
+        }
+
+        .circle3 {
+            width: 120px;
+            height: 120px;
+            background: #fffde4;
+            top: 60px;
+            right: 40px;
+        }
+
+        .login-container {
+            background: #fff;
+            padding: 38px 32px 28px 32px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13);
+            width: 100%;
+            max-width: 350px;
+            min-width: 260px;
+            margin: 0 auto;
+            z-index: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #444;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+            background: #f9f9f9;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #ffcc00;
+            outline: none;
+            background: #fff;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            background: linear-gradient(90deg, #ffcc00 0%, #ffb300 100%);
+            color: #222;
+            border: none;
+            border-radius: 7px;
+            padding: 12px 0;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(255, 204, 0, 0.08);
+            transition: background 0.2s;
+            margin-top: 8px;
+        }
+
+        button[type="submit"]:hover {
+            background: linear-gradient(90deg, #ffb300 0%, #ffcc00 100%);
+        }
+
+        .login-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px 0;
+            border-radius: 7px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .factory-btn {
+            background: linear-gradient(90deg, #ff5722 0%, #ff7043 100%);
+            color: white;
+        }
+
+        .factory-btn:hover {
+            background: linear-gradient(90deg, #ff7043 0%, #ff5722 100%);
+        }
+
+        .user-btn {
+            background: linear-gradient(90deg, #4CAF50 0%, #8BC34A 100%);
+            color: white;
+        }
+
+        .user-btn:hover {
+            background: linear-gradient(90deg, #8BC34A 0%, #4CAF50 100%);
+        }
+
+        .login-option {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .login-fields {
+            display: none;
+            padding: 15px 0;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .login-fields input {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+            background: #f9f9f9;
+            transition: border-color 0.2s;
+        }
+
+        .login-fields input:focus {
+            border-color: #ffcc00;
+            outline: none;
+            background: #fff;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 10px 0;
+            border: none;
+            border-radius: 7px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .submit-btn:hover {
+            background: #e0e0e0;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 500px) {
+            .login-container {
+                margin: 40px 8px;
+                padding: 18px 10px;
+            }
+
+            .circle1,
+            .circle2,
+            .circle3 {
+                display: none;
+            }
+        }
+
+        @media (max-width: 400px) {
+            h2 {
+                font-size: 20px;
+            }
+
+            input[type="text"],
+            input[type="password"] {
+                font-size: 14px;
+            }
+
+            button[type="submit"] {
+                font-size: 15px;
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
