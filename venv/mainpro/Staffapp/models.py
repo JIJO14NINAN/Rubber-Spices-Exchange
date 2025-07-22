@@ -13,5 +13,4 @@ class Staff(models.Model):
 
 class ProductAssignment(models.Model):
     product = models.ForeignKey(User_Products, on_delete=models.CASCADE)
-    staff = models.ForeignKey(Reg, on_delete=models.CASCADE)
     assigned_date = models.DateTimeField(auto_now_add=True)

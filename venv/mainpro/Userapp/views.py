@@ -75,63 +75,6 @@ def user_add_products_view1(request, user_id):
         'staffs': staffs,
     }
     return render(request, 'Userapp/user_add_products_view1.html', context)
-# from Adminapp.models import Login
-
-# def user_add_products_view(request):
-#     user_logins = Login.objects.filter(utype='user')
-#     users = [login.uid for login in user_logins]
-#     context = {
-#         'users': users,
-#     }
-#     return render(request, 'user_add_products_view.html', context)
-
-
-# def user_add_products_view1(request, user_id):
-#     user = Reg.objects.get(id=user_id)
-#     products = User_Products.objects.filter(uid=user)
-#     staff_logins = Login.objects.filter(utype='staff')
-#     staffs = [login.uid for login in staff_logins]
-#     context = {
-#         'user': user,
-#         'products': products,
-#         'staffs': staffs,
-#     }
-#     return render(request, 'user_add_products_view1.html', context)
-
-# def user_add_products_view(request):
-#     if request.method == 'POST':
-#         category_name = request.POST.get('cat')
-#         subcategory_name = request.POST.get('subcat')
-#         quantity = request.POST.get('quantity')
-#         image = request.FILES.get('image')
-#         user_id = request.session.get('uid') 
-
-      
-#         if category_name and subcategory_name and quantity and image and user_id:
-#             try:
-#                 category = Cattegory.objects.get(cname=category_name)
-#                 subcategory = Subcattegory.objects.get(scname=subcategory_name)
-#                 user = Reg.objects.get(id=user_id)
-
-#                 product = User_Products(
-#                     uid=user,
-#                     cid=category,
-#                     scid=subcategory,
-#                     qty_in_kg=quantity,
-#                     img=image,
-#                     status="pending", 
-#                     date=date.today()
-#                 )
-#                 product.save()
-#                 return HttpResponse("<script>alert('Product added successfully!');window.location='/userhome/';</script>")
-#             except (Cattegory.DoesNotExist, Subcattegory.DoesNotExist, Reg.DoesNotExist):
-#                 return HttpResponse("<script>alert('Invalid category, subcategory, or user!');window.location='/user_add_product/';</script>")
-#         else:
-#             return HttpResponse("<script>alert('All fields are required!');window.location='/user_add_product/';</script>")
-#     else:
-#         template=loader.get_template("user_add_products_view.html")
-#         context={}
-#         return HttpResponse(template.render(context,request))
 
 
 from Adminapp.models import Admin_Products
