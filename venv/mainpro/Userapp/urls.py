@@ -16,17 +16,14 @@ Including another URLconf
 """
 
 from django.urls import path
-
 import Userapp.views
 import Adminapp.views as Adminapp_views
 
 urlpatterns = [
-    path('user_add_product/',Userapp.views.user_add_product,name='user_add_product'),
-    path('user_add_products_view/',Userapp.views.user_add_products_view,name='user_add_products_view'),
-    path('user_add_products_view/', Userapp.views.user_add_products_view, name='user_add_products_view'),
-    path('user_add_products_view1/<int:user_id>/', Userapp.views.user_add_products_view1, name='user_products'),
-    path('userhome/', Userapp.views.userhome, name='userhome'),
-    path('view_products/', Userapp.views.view_products, name='view_products'),
+    path('', Userapp.views.home, name='index'),
+    path('reg/', Userapp.views.user_register, name='reg'),
+    path('login/', Userapp.views.login, name='login'),
     path('logout/', Adminapp_views.logout, name='logout'),
+    path('userhome/', Userapp.views.userhome, name='userhome'),
+    path('view_products/', Userapp.views.view_products, name='view_products'),   
 ]
-

@@ -10,18 +10,18 @@
 </head>
 <style>
     body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            background-image: url('{% static "Adminapp/images/spices-frame.jpg" %}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100vh;
-            margin: 0;
-        }
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        background-image: url('{% static "Adminapp/images/spices-frame.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100vh;
+        margin: 0;
+    }
 </style>
 
 <body>
@@ -42,6 +42,16 @@
             <a href="{% url 'login' %}" class="main-btn">Login</a>
         </div>
     </div>
+
+    {% if messages %}
+    <div id="message-popup" class="message-popup">
+        {% for message in messages %}
+        <p class="message {{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+        <button onclick="closeMessage()">×</button>
+    </div>
+    {% endif %}
+
     <footer>
         <p>
             &copy; 2025 Rubber & Spices. All Rights Reserved. |
@@ -81,7 +91,6 @@
             document.getElementById('policy-terms-container').style.display = 'none';
         }
     </script>
-    <!-- ...existing code... -->
 </body>
 
 </html>

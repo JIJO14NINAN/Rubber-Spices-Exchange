@@ -1,12 +1,11 @@
 from django.db import models
 from Userapp.models import User_Products
-from Adminapp.models import Reg
 # Create your models here.
 
 class Staff(models.Model):
     name=models.CharField(max_length=100)
     gender=models.CharField(max_length=10)
-    pho=models.IntegerField(max_length=10)
+    pho=models.IntegerField()
     email=models.EmailField(max_length=100)
     photo=models.FileField(upload_to='file')
     addr=models.CharField(max_length=100)

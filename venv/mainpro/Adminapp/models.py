@@ -1,12 +1,6 @@
 from django.db import models
 
-# Create your models here.
-
-class Login(models.Model):
-    uname=models.CharField(max_length=100)   
-    pswd=models.CharField(max_length=100)
-    utype=models.CharField(max_length=10)
-    
+# Create your models here.  
 
 class Cattegory(models.Model):
     cname=models.CharField(max_length=100)

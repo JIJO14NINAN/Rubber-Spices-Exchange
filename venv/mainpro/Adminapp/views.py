@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from.models import Login,Cattegory,Subcattegory,Admin_Products
+from.models import Cattegory,Subcattegory,Admin_Products
 from django.conf import settings
 from django.core.mail import send_mail
 
@@ -16,98 +16,6 @@ def adminhome(request):
     template=loader.get_template("Adminapp/adminhome.html")
     context={}
     return HttpResponse(template.render(context,request))
-
-# def login(request): 
-#     if request.method == 'POST':
-#         uname = request.POST.get("username")
-#         pswd = request.POST.get("password")
-#         l = Login.objects.get(uname=uname,pswd=pswd)  
-#         if l.utype == "user":
-#                 r=Reg.objects.get(id=l.uid_id)
-#                 if r.status == "active":
-#                     request.session["uid"] = l.uid_id
-#                     return HttpResponse("<script>alert('Welcome user');window.location='/userhome/';</script>")
-#                 else:
-#                     return HttpResponse("<script>alert('Your account is not active');window.location='/login';</script>")
-#         elif l.utype == "admin":
-#                 return HttpResponse("<script>alert('Welcome Admin');window.location='/adminhome';</script>")
-#         elif l.utype == "staff":
-#                 request.session["staff_id"] = l.uid_id
-#                 return HttpResponse("<script>alert('Welcome Staff');window.location='/staffhome/';</script>")
-#         else:
-#             return HttpResponse("<script>alert('Invalid credentials');window.location='/login';</script>")
-#     else:
-#         template = loader.get_template("login.html")
-#         context = {}
-#         return HttpResponse(template.render(context, request))
-
-# def view_user(request):
-#     if request.method == 'POST':
-#         uid = request.POST.get('uid')
-#         action = request.POST.get('action')
-#         if Reg.objects.filter(id=uid).exists():
-#             user = Reg.objects.get(id=uid)
-#             if action == 'activate':
-#                 if user.status != 'active':
-#                     user.status = 'active'  
-#                     user.save()
-#                     message = f"User {user.name} activated successfully."
-#                 else:
-#                     message = f"User {user.name} is already active."
-#             elif action == 'cancel':
-#                 user.delete()  
-#                 message = f"User {user.name} has been deleted."
-#             else:
-#                 message = "Invalid action."
-#         else:
-#             message = "User not found."
-#         users = Reg.objects.all()
-#         return render(request, 'Adminapp/view_users_admin.html', {'users': users, 'message': message})
-
-#     else:
-#         users = Reg.objects.all()
-    
-#         return render(request, 'view_users_admin.html', {'users': users})
-
-
-
-# def admin_add_staff(request):
-#     if request.method == 'POST':
-#         name = request.POST.get('name')
-#         gender = request.POST.get('gender')
-#         email = request.POST.get('email')
-#         pho = request.POST.get('pho')
-#         addr = request.POST.get('addr')
-#         uname = request.POST.get('uname')
-#         pswd = request.POST.get('pswd')
-#         reg = Reg(
-#             name=name,
-#             gender=gender,
-#             email=email,
-#             pho=pho,
-#             addr=addr,
-#             uname=uname,
-#             status="active"
-#         )
-#         reg.save()
-#         login = Login(
-#             uname=uname,
-#             pswd=pswd,
-#             utype="staff",  
-#             uid=reg  
-#         )
-#         login.save()
-#         subject = "Welcome"
-#         message = "your username is " + uname + " and password is " + pswd
-#         email_from = settings.EMAIL_HOST_USER
-#         mailid = request.POST.get('email')
-#         recipient_list = [mailid, ]
-#         send_mail(subject, message, email_from, recipient_list)
-#         return HttpResponse("<script>alert('Staff added successfully!');window.location='/adminhome/';</script>")
-#     else:
-#         template = loader.get_template("Adminapp/admin_add_staff.html")
-#         context = {}
-#         return HttpResponse(template.render(context, request))
     
 def admin_add_category(request):
     if request.method == 'POST':
@@ -148,11 +56,6 @@ def admin_add_product(request):
         template = loader.get_template("Adminapp/admin_add_product.html")
         context = {'categories': categories}
         return HttpResponse(template.render(context, request))       
-    
-
-# def added_products(request):
-#     products = Admin_Products.objects.all()
-#     return render(request, 'added_products.html', {'products': products})
 
 def added_products(request):
     products = Admin_Products.objects.all().order_by('-id')  # Latest first
@@ -187,8 +90,6 @@ def view_product(request):
         products = Admin_Products.objects.all()
         return render(request, 'view_products.html', {'products': products})
     
-from django.shortcuts import redirect
-
 from django.shortcuts import redirect
 
 def logout(request):
