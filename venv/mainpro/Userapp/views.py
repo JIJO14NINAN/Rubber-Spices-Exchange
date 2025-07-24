@@ -67,10 +67,10 @@ def user_register(request):
         uploaded_file = request.FILES.get('uploadfile')
         if not uploaded_file:
             errors['uploadfile'] = "Verification document is required"
-        elif uploaded_file.size > 5 * 1024 * 1024:  # 5MB limit
-            errors['uploadfile'] = "File too large (max 5MB)"
-        elif not uploaded_file.content_type in ['application/pdf', 'image/jpeg', 'image/png']:
-            errors['uploadfile'] = "Only PDF, JPEG, or PNG files allowed"
+        elif uploaded_file.size > 2 * 1024 * 1024:  # 2MB limit
+            errors['uploadfile'] = "File too large (max 2MB)"
+        elif uploaded_file.content_type != 'application/pdf':
+            errors['uploadfile'] = "Only PDF files are allowed"
 
         # Username validation (max 16 chars)
         if 'username' not in errors and len(data['username']) > 16:
@@ -100,19 +100,18 @@ def user_register(request):
             return render(request, 'Userapp/Registration.html', {
                 'errors': errors,
                 'form_data': data,
-                'Reg': Reg  # Pass the Reg model to the template
+                'Reg': Reg 
             })
 
         try:
             user = Reg(**data)
+            user.save()
             if uploadfile:
                 user.uploadfile = uploadfile
-            user.save()
+                user.save()
             messages.success(request, "Registration successful! Please wait for admin approval.")
-            return render(request, 'Userapp/Registration.html', {
-                'Reg': Reg,
-                'form_data': {},  # empty form
-            })
+            return render(request, 'Userapp/Registration.html', {'Reg': Reg, 'form_data': {}})
+        
         except Exception as e:
             errors['form'] = "An error occurred during registration. Please try again."
             return render(request, 'Userapp/Registration.html', {

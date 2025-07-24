@@ -113,14 +113,8 @@
 
             <div class="form-group">
                 <label for="uploadfile">Verification Document (Required)</label>
-                <input 
-                    type="file" 
-                    id="uploadfile" 
-                    name="uploadfile" 
-                    accept=".pdf,.jpg,.jpeg,.png" 
-                    required
-                >
-                <small class="text-muted">Upload ID proof or relevant document (PDF or image, max 5MB)</small>
+                <input type="file" id="uploadfile" name="uploadfile" accept="application/pdf" required>
+                <small class="text-muted">Upload ID proof or relevant document (PDF max 2MB)</small>
                 {% if errors.uploadfile %}
                     <div class="error">{{ errors.uploadfile }}</div>
                 {% endif %}
@@ -148,6 +142,7 @@
             <button type="submit">Register</button>
         </form>
     </div>
+    
     <script>
         const homeUrl = "{% url 'index' %}";
     </script>
