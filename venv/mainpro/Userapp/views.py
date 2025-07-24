@@ -19,6 +19,7 @@ from Adminapp.models import Admin_Products
 
 def home(request):
     return render(request, 'index.html')
+
 def user_register(request):
     if request.method == 'POST':
         errors = {}
@@ -35,10 +36,15 @@ def user_register(request):
             'password': request.POST.get('pswd', '').strip(),
         }
 
+        uploadfile = request.FILES.get('uploadfile')
+        
         # Validate required fields
         for field in ['fname', 'sname', 'email', 'phone', 'gender', 'address', 'username', 'password']:
             if not data[field]:
                 errors[field] = f"{field.capitalize()} is required."
+
+        if not uploadfile:
+            errors['uploadfile'] = "Please upload a document."
 
         # Email validation
         if 'email' not in errors:
@@ -51,10 +57,20 @@ def user_register(request):
         if 'phone' not in errors and not re.match(r'^\+?[0-9]{10,15}$', data['phone']):
             errors['phone'] = 'Enter a valid phone number (10-15 digits, numbers and + only).'
             
+        # Location validation
         if not data['location']:
             errors['location'] = 'Location is required.'
         elif data['location'] not in dict(Reg.LOCATION_CHOICES):
             errors['location'] = 'Invalid location selected.'
+
+        # Optional: Validate file type
+        uploaded_file = request.FILES.get('uploadfile')
+        if not uploaded_file:
+            errors['uploadfile'] = "Verification document is required"
+        elif uploaded_file.size > 5 * 1024 * 1024:  # 5MB limit
+            errors['uploadfile'] = "File too large (max 5MB)"
+        elif not uploaded_file.content_type in ['application/pdf', 'image/jpeg', 'image/png']:
+            errors['uploadfile'] = "Only PDF, JPEG, or PNG files allowed"
 
         # Username validation (max 16 chars)
         if 'username' not in errors and len(data['username']) > 16:
@@ -89,9 +105,10 @@ def user_register(request):
 
         try:
             user = Reg(**data)
+            if uploadfile:
+                user.uploadfile = uploadfile
             user.save()
             messages.success(request, "Registration successful! Please wait for admin approval.")
-            # Instead of redirect, render the same page with empty form_data and success message
             return render(request, 'Userapp/Registration.html', {
                 'Reg': Reg,
                 'form_data': {},  # empty form
@@ -105,7 +122,7 @@ def user_register(request):
             })
 
     else:
-        return render(request, 'Userapp/Registration.html', {'Reg': Reg})  # Pass the Reg model here as well
+        return render(request, 'Userapp/Registration.html', {'Reg': Reg})  
     
 def login(request):
     if request.method == 'POST':

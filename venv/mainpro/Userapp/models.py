@@ -21,6 +21,8 @@ class Reg(models.Model):
     gender = models.CharField(max_length=10)
     address = models.CharField(max_length=100)
     location = models.CharField(max_length=50, choices=LOCATION_CHOICES, null=True)  # Add this field
+    uploadfile = models.FileField(
+    upload_to='verification_docs/', blank=False,  null=False,   help_text="Upload a PDF or image for verification (required)")
     username = models.CharField(max_length=100, unique=True)
     password = models.CharField(max_length=128)
     status = models.CharField(max_length=20, default='pending')  # pending/approved/rejected

@@ -112,6 +112,21 @@
             </div>
 
             <div class="form-group">
+                <label for="uploadfile">Verification Document (Required)</label>
+                <input 
+                    type="file" 
+                    id="uploadfile" 
+                    name="uploadfile" 
+                    accept=".pdf,.jpg,.jpeg,.png" 
+                    required
+                >
+                <small class="text-muted">Upload ID proof or relevant document (PDF or image, max 5MB)</small>
+                {% if errors.uploadfile %}
+                    <div class="error">{{ errors.uploadfile }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
                 <label for="uname">Username</label>
                 <input type="text" id="uname" name="uname" placeholder="Enter username" required
                     pattern="^[A-Za-z0-9_]{4,}$" value="{{ form_data.username|default:'' }}">

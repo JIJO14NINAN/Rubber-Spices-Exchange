@@ -18,6 +18,8 @@ Including another URLconf
 from django.urls import path
 import Userapp.views
 import Adminapp.views as Adminapp_views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', Userapp.views.home, name='index'),
@@ -27,3 +29,6 @@ urlpatterns = [
     path('userhome/', Userapp.views.userhome, name='userhome'),
     path('view_products/', Userapp.views.view_products, name='view_products'),   
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
