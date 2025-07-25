@@ -1,21 +1,50 @@
-from django.shortcuts import render
+# views.py
+
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
-from.models import Cattegory,Subcattegory,Admin_Products
-from django.conf import settings
-from django.core.mail import send_mail
-
-# Create your views here.
+from .models import Cattegory, Subcattegory, Admin_Products
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
+from .forms import CustomAdminLoginForm
+from django.contrib.auth import logout as auth_logout
 
 def index(request):
-    template=loader.get_template('Index.html')
-    context={}
-    return HttpResponse(template.render(context,request))
+    template = loader.get_template('Index.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
 
+def admin_login(request):
+    if request.method == 'POST':
+        form = CustomAdminLoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            if user.is_active and user.is_superuser:
+                login(request, user)
+                return redirect('adminhome')  # or your admin dashboard URL name
+            else:
+                messages.error(request, "You do not have admin access.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    else:
+        form = CustomAdminLoginForm()
+    return render(request, 'Adminapp/admin_login.html', {'form': form, 'app_path': request.path})
+
+def logout(request):
+    auth_logout(request)
+    return redirect('index')
+
+# Decorator to check if user is superuser
+def superuser_required(view_func):
+    decorated_view_func = login_required(user_passes_test(lambda u: u.is_superuser, login_url='admin_login')(view_func))
+    return decorated_view_func
+
+@superuser_required
 def adminhome(request):
-    template=loader.get_template("Adminapp/adminhome.html")
-    context={}
-    return HttpResponse(template.render(context,request))
+    return render(request, "Adminapp/admin_home.html")
+
+
     
 def admin_add_category(request):
     if request.method == 'POST':
@@ -27,35 +56,7 @@ def admin_add_category(request):
     else:
         template = loader.get_template("Adminapp/admin_add_category.html")
         context = {}
-        return HttpResponse(template.render(context, request))     
-
-from django.shortcuts import render, get_object_or_404
-
-def admin_add_product(request):
-    if request.method == 'POST':
-        cid = request.POST.get('cat')
-        pname = request.POST.get('pname')
-        desc = request.POST.get('desc')
-        img = request.FILES.get('img')  
-        rate = request.POST.get('rate')
-        qty_in_gm = request.POST.get('qty_in_gm')
-
-        category = get_object_or_404(Cattegory, id=cid)
-        product = Admin_Products(
-            cid=category,
-            pname=pname,
-            desc=desc,
-            img=img,
-            rate=rate,
-            qty_in_gm=qty_in_gm
-        )
-        product.save()
-        return HttpResponse("<script>alert('Product added successfully!');window.location='/adminhome/';</script>")
-    else:
-        categories = Cattegory.objects.all()
-        template = loader.get_template("Adminapp/admin_add_product.html")
-        context = {'categories': categories}
-        return HttpResponse(template.render(context, request))       
+        return HttpResponse(template.render(context, request))            
 
 def added_products(request):
     products = Admin_Products.objects.all().order_by('-id')  # Latest first
@@ -68,7 +69,6 @@ def added_products(request):
             'qty': f"{product.qty_in_gm} gm" if product.qty_in_gm else f"{product.qty_in_kg} kg" if hasattr(product, 'qty_in_kg') else "",
         })
     return render(request, 'added_products.html', {'products': product_list})
-
 
 def view_product(request):
     if request.method == 'POST':
@@ -90,10 +90,4 @@ def view_product(request):
         products = Admin_Products.objects.all()
         return render(request, 'view_products.html', {'products': products})
     
-from django.shortcuts import redirect
 
-def logout(request):
-    request.session.pop('uid', None)
-    request.session.pop('staff_id', None)
-    # Add other session keys if you use them for admin, e.g. 'admin_id'
-    return HttpResponse("<script>alert('Logged out successfully!');window.location='/';</script>")

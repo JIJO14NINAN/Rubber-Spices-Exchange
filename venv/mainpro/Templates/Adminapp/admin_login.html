@@ -1,0 +1,105 @@
+<!-- admin_login.html -->
+ {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal - Secure Access</title>
+    <link rel="stylesheet" href="{% static 'Adminapp/css/admin_login.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="background-pattern min-h-screen flex items-center justify-center">
+    <div class="bg-white/90 backdrop-blur-sm rounded-lg shadow-2xl p-8 w-full max-w-md">
+        <!-- Logo Area -->
+        <div class="flex justify-center mb-8">
+            <div
+                class="w-16 h-16 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+                </svg>
+            </div>
+        </div>
+
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Admin Portal</h1>
+
+        {% if form.errors and not form.non_field_errors %}
+        <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+            {% if form.errors.items|length == 1 %}
+            <p class="font-medium">Please correct the error below.</p>
+            {% else %}
+            <p class="font-medium">Please correct the errors below.</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% if form.non_field_errors %}
+        <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+            {% for error in form.non_field_errors %}
+            <p class="font-medium">{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form action="{{ app_path }}" method="post" id="login-form" class="space-y-6" data-has-errors="{% if form.errors %}true{% else %}false{% endif %}">
+            {% csrf_token %}
+            <div id="normal-fields">
+                <div class="space-y-2">
+                    <label for="id_username" class="block text-sm font-medium text-gray-700">Username</label>
+                    {{ form.username }}
+                </div>
+                <div class="space-y-2">
+                    <label for="id_password" class="block text-sm font-medium text-gray-700">Password</label>
+                    {{ form.password }}
+                    <div class="text-right">
+                        <a href="#" onclick="showSecretFields()"
+                            class="text-sm text-indigo-600 hover:text-indigo-500">Advanced Login</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Secret Fields (Initially Hidden) -->
+            <div id="secret-fields" class="hidden">
+                <div class="space-y-2">
+                    <label for="id_secret_token" class="block text-sm font-medium text-gray-700">Secret Token</label>
+                    <input type="password" name="secret_token" id="id_secret_token"
+                        class="hidden-field bg-gray-100 border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div class="space-y-2">
+                    <label for="id_hidden_answer" class="block text-sm font-medium text-gray-700">Verification
+                        Answer</label>
+                    <input type="password" name="hidden_answer" id="id_hidden_answer"
+                        class="hidden-field bg-gray-100 border border-gray-300 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+            </div>
+
+            <div>
+                <button type="submit"
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Log in
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script src="{% static 'Adminapp/js/admin_login.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('login-form');
+            const hasErrors = loginForm.dataset.hasErrors === 'true';
+            if (hasErrors) {
+                loginForm.classList.add('shake');
+                setTimeout(() => {
+                    loginForm.classList.remove('shake');
+                }, 500);
+            }
+        });
+    </script>
+
+</body>
+
+</html>

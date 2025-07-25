@@ -1,0 +1,25 @@
+/* admin_login.css */
+
+.hidden-field {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+            border: none;
+            position: absolute;
+        }
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translateX(-1px); }
+            20%, 80% { transform: translateX(2px); }
+            30%, 50%, 70% { transform: translateX(-4px); }
+            40%, 60% { transform: translateX(4px); }
+        }
+        .background-pattern {
+            background-color: #111827;
+            background-image: 
+                radial-gradient(at 47% 33%, hsl(215.85, 91%, 60%) 0, transparent 59%),
+                radial-gradient(at 82% 65%, hsl(247.96, 87%, 60%) 0, transparent 55%);
+        }
