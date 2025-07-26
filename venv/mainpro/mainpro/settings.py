@@ -62,7 +62,8 @@ TEMPLATES = [
             os.path.join(BASE_DIR, 'Templates'),
             os.path.join(BASE_DIR, 'Templates/Userapp'),
             os.path.join(BASE_DIR, 'Templates/Adminapp'), 
-            os.path.join(BASE_DIR, 'Templates/Staffapp')
+            os.path.join(BASE_DIR, 'Templates/Staffapp'),
+            os.path.join(BASE_DIR, 'Templates/FactoryApp'),
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -129,6 +130,7 @@ STATICFILES_DIRS= [
     os.path.join(BASE_DIR, 'static/Adminapp'),
     os.path.join(BASE_DIR, 'static/Staffapp'), 
     os.path.join(BASE_DIR, 'static/Userapp'),
+    os.path.join(BASE_DIR, 'static/FactoryApp'),
     os.path.join(BASE_DIR, 'static'),
     BASE_DIR / "static",
 ]

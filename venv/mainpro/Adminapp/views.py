@@ -44,8 +44,6 @@ def superuser_required(view_func):
 def adminhome(request):
     return render(request, "Adminapp/admin_home.html")
 
-
-    
 def admin_add_category(request):
     if request.method == 'POST':
         cname = request.POST.get('cat')
