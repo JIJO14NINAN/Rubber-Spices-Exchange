@@ -23,6 +23,7 @@ urlpatterns = [
     path('',Adminapp.views.index,name='index'),
     path('admin_login/', Adminapp.views.admin_login, name='admin_login'), 
     path('admin_home/', Adminapp.views.adminhome, name='adminhome'),
+    path('view_users_admin/', Adminapp.views.view_users_admin, name='view_user'),
     path('admin_add_category/',Adminapp.views.admin_add_category,name='admin_add_category'),
     path('view_product/',Adminapp.views.view_product,name='view_product'),
     path('logout/', Adminapp.views.logout, name='logout'),

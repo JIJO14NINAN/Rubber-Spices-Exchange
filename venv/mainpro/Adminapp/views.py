@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .forms import CustomAdminLoginForm
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.hashers import check_password
+from Userapp.models import Reg 
 
 def index(request):
     template = loader.get_template('Index.html')
@@ -43,6 +45,27 @@ def superuser_required(view_func):
 @superuser_required
 def adminhome(request):
     return render(request, "Adminapp/admin_home.html")
+
+@superuser_required
+def view_users_admin(request):
+    message = ''
+    if request.method == 'POST':
+        uid = request.POST.get('uid')
+        action = request.POST.get('action')
+        try:
+            user = Reg.objects.get(id=uid)
+            if action == 'activate':
+                user.status = 'approved'
+                user.save()
+                message = f"User {user.username} approved successfully."
+            elif action == 'cancel':
+                user.delete()
+                message = f"User {user.username} rejected and removed."
+        except Reg.DoesNotExist:
+            message = "User not found."
+    #Show only users with status 'pending'
+    users = Reg.objects.filter(status='pending').order_by('id')
+    return render(request, 'Adminapp/view_users_admin.html', {'users': users, 'message': message})
 
 def admin_add_category(request):
     if request.method == 'POST':
