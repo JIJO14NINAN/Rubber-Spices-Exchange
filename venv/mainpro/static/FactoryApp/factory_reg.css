@@ -1,0 +1,118 @@
+/* Factory Registration Form Styles */
+:root {
+    --primary: #2c3e50;
+    --secondary: #34495e;
+    --accent: #3498db;
+    --light: #ecf0f1;
+    --dark: #2c3e50;
+    --success: #2ecc71;
+    --danger: #e74c3c;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+.registration-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.registration-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary);
+}
+
+.registration-header h1 {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.form-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: white;
+}
+
+.file-upload {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-upload-label {
+    padding: 0.75rem;
+    background-color: var(--light);
+    border: 1px dashed #ccc;
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.file-upload-label:hover {
+    background-color: #e1e5e8;
+}
+
+.submit-btn {
+    display: block;
+    width: 100%;
+    padding: 0.8rem;
+    background: linear-gradient(90deg, var(--success), var(--accent));
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+@media (max-width: 768px) {
+    .registration-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+}

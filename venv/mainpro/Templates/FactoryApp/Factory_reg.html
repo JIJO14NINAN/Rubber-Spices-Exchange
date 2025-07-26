@@ -1,0 +1,267 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factory Registration</title>
+    <link rel="stylesheet" href="{% static 'static/FactoryApp/factory_reg.css' %}">
+    <style>
+        /* Factory Registration Form Styles */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #34495e;
+            --accent: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            background: linear-gradient(90deg, var(--accent), var(--success));
+            color: #fff;
+            padding: 10px 26px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 2px 10px rgba(52, 152, 219, 0.13);
+            transition: background 0.2s, transform 0.18s;
+            z-index: 100;
+            border: none;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(90deg, var(--success), var(--accent));
+            color: #fff;
+            transform: scale(1.07);
+            text-decoration: none;
+        }
+
+        .registration-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+        }
+
+        .registration-header h1 {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: white;
+        }
+
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .file-upload-label {
+            padding: 0.75rem;
+            background-color: var(--light);
+            border: 1px dashed #ccc;
+            border-radius: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload-label:hover {
+            background-color: #e1e5e8;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(90deg, var(--success), var(--accent));
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        @media (max-width: 768px) {
+            .registration-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+
+        .registration-header h1 {
+            font-size: 1.8rem;
+        }
+
+        .form-control,
+        .form-select {
+            font-size: 0.9rem;
+        }
+
+        .submit-btn {
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="" class="back-btn">Back</a>
+    <div class="registration-container">
+        <div class="registration-header">
+            <h1>Factory Registration</h1>
+            <p>Please fill in all required details</p>
+        </div>
+
+        <form method="post" enctype="multipart/form-data" id="factoryRegForm" novalidate>
+            {% csrf_token %}
+
+            <div id="formError" style="color:#e74c3c; font-size:15px; margin-bottom:10px; display:none;"></div>
+
+            <div class="form-group">
+                <label for="name">Factory Name</label>
+                <input type="text" class="form-control" id="name" name="name" required pattern="^[A-Za-z0-9\s\-]{3,}$">
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" class="form-control" id="location" name="location" required>
+            </div>
+
+            <div class="form-group">
+                <label for="owner">Owner Name</label>
+                <input type="text" class="form-control" id="owner" name="owner" required pattern="^[A-Za-z\s]{3,}$">
+            </div>
+
+            <div class="form-group">
+                <label for="contact">Contact Number</label>
+                <input type="tel" class="form-control" id="contact" name="contact" required pattern="^[0-9]{10}$"
+                    maxlength="10">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="type">Factory Type</label>
+                <select class="form-select" id="type" name="type" required>
+                    <option value="">Select factory type</option>
+                    <option value="Rubber">Rubber - Rubber Sheet and Latex</option>
+                    <option value="Spices">Spices - Pepper, Cloves</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>License Document</label>
+                <div class="file-upload">
+                    <label class="file-upload-label" for="license">
+                        Click to upload license file
+                        <input type="file" id="license" name="license" style="display: none;">
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Register Factory</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('factoryRegForm').onsubmit = function (e) {
+            var errorMsg = "";
+            var name = document.getElementById('name').value.trim();
+            var owner = document.getElementById('owner').value.trim();
+            var email = document.getElementById('email').value.trim();
+            var contact = document.getElementById('contact').value.trim();
+
+            if (name.length < 3 || !/^[A-Za-z0-9\s\-]+$/.test(name)) {
+                errorMsg = "Please enter a valid factory name (min 3 characters, letters/numbers/hyphens).";
+            } else if (owner.length < 3 || !/^[A-Za-z\s]+$/.test(owner)) {
+                errorMsg = "Please enter a valid owner name (min 3 characters, letters only).";
+            } else if (!email.match(/^[^@]+@[^@]+\.[^@]+$/)) {
+                errorMsg = "Please enter a valid email address.";
+            } else if (!contact.match(/^[0-9]{10}$/)) {
+                errorMsg = "Please enter a valid 10-digit contact number.";
+            }
+
+            if (errorMsg) {
+                document.getElementById('formError').innerText = errorMsg;
+                document.getElementById('formError').style.display = 'block';
+                e.preventDefault();
+                return false;
+            }
+            document.getElementById('formError').style.display = 'none';
+            return true;
+        }
+    </script>
+</body>
+
+</html>
