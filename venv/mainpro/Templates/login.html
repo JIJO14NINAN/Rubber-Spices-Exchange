@@ -24,6 +24,9 @@
                         <button type="submit" name="user_type" value="factory" class="submit-btn">Login</button>
                     </div>
                 </div>
+            </form>
+            <form method="post" action="{% url 'factory_login' %}" style="width:100%;">
+                {% csrf_token %}
                 <div class="login-option">
                     <button type="button" class="login-btn user-btn">User Login</button>
                     <div class="login-fields">

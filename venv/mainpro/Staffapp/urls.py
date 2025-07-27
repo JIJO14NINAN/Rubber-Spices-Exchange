@@ -22,9 +22,8 @@ import Adminapp.views as Adminapp_views
 
 urlpatterns = [
     path('staffhome/', Staffapp.views.staffhome, name='staffhome'),
-    path('user_add_products_view1/<int:user_id>/', views.user_add_products_view1, name='user_add_products_view1'),
     path('assign_task/<int:user_id>/', Staffapp.views.assign_task, name='assign_task'),
-    path('staff_view_product/', Staffapp.views.staff_view_product, name='staff_view_product'),
+    # path('staff_view_product/', Staffapp.views.staff_view_product, name='staff_view_product'),
     path('staff_finished_task/<int:product_id>/', Staffapp.views.staff_finished_task, name='staff_finished_task'),
     path('logout/', Adminapp_views.logout, name='logout'),
 ]

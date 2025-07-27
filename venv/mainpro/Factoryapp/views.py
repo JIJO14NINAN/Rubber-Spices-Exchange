@@ -1,3 +1,146 @@
-from django.shortcuts import render
+from django.shortcuts import render 
+import loader 
+from django.http import HttpResponse
+from Adminapp.models import Stocks
+from Factoryapp.models import Factory
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+from django.contrib.auth import logout
+
+from venv.mainpro.Adminapp.views import logout
+
 
 # Create your views here.
+
+def factory_home(request):
+    template = loader.get_template('FactoryApp/factory_home.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
+
+import re  # Import the re module for regular expressions
+
+import re  # Import the re module for regular expressions
+from django.shortcuts import render
+
+def factory_register(request):
+    if request.method == 'POST':
+        form_data = request.POST  # Get the form data from the POST request
+        name = form_data.get('name')
+        owner = form_data.get('owner')
+        email = form_data.get('email')
+        contact = form_data.get('contact')
+        
+        # Perform server-side validation
+        errors = {}
+        if len(name) < 3 or not re.match(r'^[A-Za-z0-9\s\-]+$', name):
+            errors['name'] = "Please enter a valid factory name (min 3 characters, letters/numbers/hyphens)."
+        if len(owner) < 3 or not re.match(r'^[A-Za-z\s]+$', owner):
+            errors['owner'] = "Please enter a valid owner name (min 3 characters, letters only)."
+        if not re.match(r'^[^@]+@[^@]+\.[^@]+$', email):
+            errors['email'] = "Please enter a valid email address."
+        if not re.match(r'^[0-9]{10}$', contact):
+            errors['contact'] = "Please enter a valid 10-digit contact number."
+        
+        if errors:
+            return render(request, 'Factory_reg.html', {'success': False, 'errors': errors})
+        
+        # If valid, proceed with registration logic (e.g., save to the database)
+        # Here you would typically save the factory data to the database
+
+        # Render the success template with a verification message
+        return render(request, 'Factory_reg.html', {
+            'success': True,
+            'message': 'Please wait for the verification.'
+        })
+    
+    # If the request method is not POST, render the registration form
+    return render(request, 'Factory_reg.html')
+
+
+import re
+
+def factory_login(form_data):
+    username = form_data.get('factory_username')
+    password = form_data.get('factory_password')
+
+    # Validation errors
+    errors = {}
+
+    # Validate username/email
+    if not username:
+        errors['username'] = 'Username/Email is required.'
+    elif not re.match(r'^[A-Za-z0-9@._-]+$', username):
+        errors['username'] = 'Invalid username/email format.'
+
+    # Validate password
+    if not password:
+        errors['password'] = 'Password is required.'
+    elif len(password) < 6:
+        errors['password'] = 'Password must be at least 6 characters long.'
+
+    if errors:
+        return {
+            'success': False,
+            'errors': errors
+        }
+
+    # Example hardcoded credentials (replace with database check)
+    valid_username = "factory_admin"
+    valid_password = "securepassword123"
+
+    if username == valid_username and password == valid_password:
+        # Return success (simulate redirection by returning a target URL)
+        return {
+            'success': True,
+            'redirect_url': 'factory_home.html'  # Replace with actual path/URL
+        }
+    else:
+        return {
+            'success': False,
+            'errors': {'credentials': 'Invalid username/password'}
+        }
+
+
+
+   
+def factory_stocks(request):
+    stocks = Stocks.objects.all()  # Assuming you have a Stocks model to fetch stock data
+    return render(request, 'FactoryApp/factory_stocks.html', {'stocks': stocks})   
+
+
+from .forms import FactoryForm  # Assuming you have a form for the Factory model
+
+@login_required
+def factory_profile(request):
+    """
+    View to display and edit factory profile details for the currently logged-in user.
+    """
+    # Get the factory profile associated with the current user
+    factory = get_object_or_404(Factory, owner=request.user.username)  # Assuming owner is the username
+
+    if request.method == 'POST':
+        # If the form is submitted, process the data
+        form = FactoryForm(request.POST, request.FILES, instance=factory)
+        if form.is_valid():
+            form.save()  # Save the updated factory details
+            return redirect('factory_profile')  # Redirect to the same profile page after saving
+    else:
+        # If the request is GET, create a form with the current factory data
+        form = FactoryForm(instance=factory)
+
+    context = {
+        'form': form,
+        'factory': factory,
+        'page_title': 'Edit Factory Profile',
+    }
+    
+    return render(request, 'FactoryApp/factory_profile.html', context)
+
+
+def factory_signout(request):
+    """
+    View to handle factory sign-out (logout) for the currently logged-in user.
+    """
+    logout(request)
+    return redirect('factory_login')

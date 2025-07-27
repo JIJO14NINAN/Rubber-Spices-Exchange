@@ -6,73 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Staff</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            background-color: #ffffff;
-            padding: 20px 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            max-width: 500px;
-            width: 100%;
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #555;
-        }
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        .form-group input[type="radio"] {
-            width: auto;
-            margin-right: 5px;
-        }
-        .form-group .gender-options {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'Adminapp/css/admin_add_staff.css' %}">
 </head>
+
 <body>
     <div class="container">
         <h2>Add Staff</h2>
@@ -126,5 +62,7 @@
             <button type="submit">Add</button>
         </form>
     </div>
+
 </body>
+
 </html>

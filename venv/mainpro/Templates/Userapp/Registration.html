@@ -1,0 +1,153 @@
+{% load static %}
+<!-- Registration.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Registration</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'Userapp/css/Registration.css' %}">
+</head>
+
+<body>
+    <nav>
+        <div class="links" style="font-family: 'Times New Roman', Times, serif;">
+            <a href="{% url 'index' %}">Home</a>
+        </div>
+    </nav>
+    <div class="container">
+        {% if messages %}
+        <div id="message-popup" class="message-popup">
+            {% for message in messages %}
+            <p class="message {{ message.tags }}">{{ message }}</p>
+            {% endfor %}
+            <button onclick="closeMessage()">×</button>
+        </div>
+        {% endif %}
+
+        <h2>Register</h2>
+        <form id="regForm" action="{% url 'reg' %}" method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            <div class="error-msg" id="formError"></div>
+
+            {% if errors.form %}
+            <div style="color:#d32f2f; margin-bottom: 10px;">{{ errors.form }}</div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="fname">First Name</label>
+                <input type="text" id="fname" name="fname" placeholder="Enter first name" required
+                    pattern="^[A-Za-z\s]{3,}$" value="{{ form_data.fname|default:'' }}">
+                {% if errors.fname %}
+                <small style="color:#d32f2f;">{{ errors.fname }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="sname">Last Name</label>
+                <input type="text" id="sname" name="sname" placeholder="Enter last name" required
+                    pattern="^[A-Za-z\s]{3,}$" value="{{ form_data.sname|default:'' }}">
+                {% if errors.sname %}
+                <small style="color:#d32f2f;">{{ errors.sname }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <div style="display: flex; gap: 18px; align-items: center;">
+                    <label style="font-weight:400;">
+                        <input type="radio" name="gender" value="Male" required {% if form_data.gender == "Male"%}checked{% endif %}> Male
+                    </label>
+                    <label style="font-weight:400;">
+                        <input type="radio" name="gender" value="Female" required {% if form_data.gender == "Female"%}checked{% endif %}> Female
+                    </label>
+                </div>
+                {% if errors.gender %}
+                <small style="color:#d32f2f;">{{ errors.gender }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="Enter email" required
+                    value="{{ form_data.email|default:'' }}">
+                {% if errors.email %}
+                <small style="color:#d32f2f;">{{ errors.email }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="pho">Phone Number</label>
+                <input type="tel" id="pho" name="pho" pattern="^\+?[0-9]{10,15}$" maxlength="15"
+                    placeholder="Enter phone number" required
+                    title="Enter a valid phone number (10-15 digits, optional leading +)"
+                    value="{{ form_data.phone|default:'' }}">
+                {% if errors.phone %}
+                <small style="color:#d32f2f;">{{ errors.phone }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="addr">Address</label>
+                <textarea id="addr" name="addr" placeholder="Enter address" rows="3"
+                    required>{{ form_data.address|default:'' }}</textarea>
+                {% if errors.address %}
+                <small style="color:#d32f2f;">{{ errors.address }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="loc">Location</label>
+                <select id="loc" name="loc" required>
+                    <option value="">Select Location</option>
+                    {% for key, value in Reg.LOCATION_CHOICES %}
+                    <option value="{{ key }}" {% if form_data.location == key %}selected{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                </select>
+                {% if errors.location %}
+                <small style="color:#d32f2f;">{{ errors.location }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="uploadfile">Verification Document (Required)</label>
+                <input type="file" id="uploadfile" name="uploadfile" accept="application/pdf" required>
+                <small class="text-muted">Upload ID proof or relevant document (PDF max 2MB)</small>
+                {% if errors.uploadfile %}
+                    <div class="error">{{ errors.uploadfile }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="uname">Username</label>
+                <input type="text" id="uname" name="uname" placeholder="Enter username" required
+                    pattern="^[A-Za-z0-9_]{4,}$" value="{{ form_data.username|default:'' }}">
+                {% if errors.username %}
+                <small style="color:#d32f2f;">{{ errors.username }}</small>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="pswd" name="pswd" placeholder="Enter the password" required minlength="8"
+                    pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$"
+                    title="Must contain: 8+ chars, 1 uppercase, 1 lowercase, 1 number, 1 special char">
+                {% if errors.password %}
+                <small style="color:#d32f2f;">{{ errors.password }}</small>
+                {% endif %}
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+    
+    <script>
+        const homeUrl = "{% url 'index' %}";
+    </script>
+    <script src="{% static 'Userapp/js/Registration.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,113 +1,53 @@
-from django.shortcuts import render
+# views.py
+
+from datetime import date
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
-from.models import Login,Cattegory,Subcattegory,Admin_Products
-from django.conf import settings
-from django.core.mail import send_mail
-
-# Create your views here.
+from .models import Cattegory, Subcattegory, Admin_Products
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
+from .forms import CustomAdminLoginForm
+from django.contrib.auth import logout as auth_logout
+from datetime import datetime
+from Adminapp.models import Stocks
 
 def index(request):
-    template=loader.get_template('Index.html')
-    context={}
-    return HttpResponse(template.render(context,request))
+    template = loader.get_template('Index.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
 
+def admin_login(request):
+    if request.method == 'POST':
+        form = CustomAdminLoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            if user.is_active and user.is_superuser:
+                login(request, user)
+                return redirect('adminhome')  # or your admin dashboard URL name
+            else:
+                messages.error(request, "You do not have admin access.")
+        else:
+            messages.error(request, "Invalid username or password.")
+    else:
+        form = CustomAdminLoginForm()
+    return render(request, 'Adminapp/admin_login.html', {'form': form, 'app_path': request.path})
+
+def logout(request):
+    auth_logout(request)
+    return redirect('index')
+
+# Decorator to check if user is superuser
+def superuser_required(view_func):
+    decorated_view_func = login_required(user_passes_test(lambda u: u.is_superuser, login_url='admin_login')(view_func))
+    return decorated_view_func
+
+@superuser_required
 def adminhome(request):
-    template=loader.get_template("Adminapp/adminhome.html")
-    context={}
-    return HttpResponse(template.render(context,request))
-
-# def login(request): 
-#     if request.method == 'POST':
-#         uname = request.POST.get("username")
-#         pswd = request.POST.get("password")
-#         l = Login.objects.get(uname=uname,pswd=pswd)  
-#         if l.utype == "user":
-#                 r=Reg.objects.get(id=l.uid_id)
-#                 if r.status == "active":
-#                     request.session["uid"] = l.uid_id
-#                     return HttpResponse("<script>alert('Welcome user');window.location='/userhome/';</script>")
-#                 else:
-#                     return HttpResponse("<script>alert('Your account is not active');window.location='/login';</script>")
-#         elif l.utype == "admin":
-#                 return HttpResponse("<script>alert('Welcome Admin');window.location='/adminhome';</script>")
-#         elif l.utype == "staff":
-#                 request.session["staff_id"] = l.uid_id
-#                 return HttpResponse("<script>alert('Welcome Staff');window.location='/staffhome/';</script>")
-#         else:
-#             return HttpResponse("<script>alert('Invalid credentials');window.location='/login';</script>")
-#     else:
-#         template = loader.get_template("login.html")
-#         context = {}
-#         return HttpResponse(template.render(context, request))
-
-# def view_user(request):
-#     if request.method == 'POST':
-#         uid = request.POST.get('uid')
-#         action = request.POST.get('action')
-#         if Reg.objects.filter(id=uid).exists():
-#             user = Reg.objects.get(id=uid)
-#             if action == 'activate':
-#                 if user.status != 'active':
-#                     user.status = 'active'  
-#                     user.save()
-#                     message = f"User {user.name} activated successfully."
-#                 else:
-#                     message = f"User {user.name} is already active."
-#             elif action == 'cancel':
-#                 user.delete()  
-#                 message = f"User {user.name} has been deleted."
-#             else:
-#                 message = "Invalid action."
-#         else:
-#             message = "User not found."
-#         users = Reg.objects.all()
-#         return render(request, 'Adminapp/view_users_admin.html', {'users': users, 'message': message})
-
-#     else:
-#         users = Reg.objects.all()
-    
-#         return render(request, 'view_users_admin.html', {'users': users})
+    return render(request, "Adminapp/admin_home.html")
 
 
-
-# def admin_add_staff(request):
-#     if request.method == 'POST':
-#         name = request.POST.get('name')
-#         gender = request.POST.get('gender')
-#         email = request.POST.get('email')
-#         pho = request.POST.get('pho')
-#         addr = request.POST.get('addr')
-#         uname = request.POST.get('uname')
-#         pswd = request.POST.get('pswd')
-#         reg = Reg(
-#             name=name,
-#             gender=gender,
-#             email=email,
-#             pho=pho,
-#             addr=addr,
-#             uname=uname,
-#             status="active"
-#         )
-#         reg.save()
-#         login = Login(
-#             uname=uname,
-#             pswd=pswd,
-#             utype="staff",  
-#             uid=reg  
-#         )
-#         login.save()
-#         subject = "Welcome"
-#         message = "your username is " + uname + " and password is " + pswd
-#         email_from = settings.EMAIL_HOST_USER
-#         mailid = request.POST.get('email')
-#         recipient_list = [mailid, ]
-#         send_mail(subject, message, email_from, recipient_list)
-#         return HttpResponse("<script>alert('Staff added successfully!');window.location='/adminhome/';</script>")
-#     else:
-#         template = loader.get_template("Adminapp/admin_add_staff.html")
-#         context = {}
-#         return HttpResponse(template.render(context, request))
     
 def admin_add_category(request):
     if request.method == 'POST':
@@ -119,40 +59,7 @@ def admin_add_category(request):
     else:
         template = loader.get_template("Adminapp/admin_add_category.html")
         context = {}
-        return HttpResponse(template.render(context, request))     
-
-from django.shortcuts import render, get_object_or_404
-
-def admin_add_product(request):
-    if request.method == 'POST':
-        cid = request.POST.get('cat')
-        pname = request.POST.get('pname')
-        desc = request.POST.get('desc')
-        img = request.FILES.get('img')  
-        rate = request.POST.get('rate')
-        qty_in_gm = request.POST.get('qty_in_gm')
-
-        category = get_object_or_404(Cattegory, id=cid)
-        product = Admin_Products(
-            cid=category,
-            pname=pname,
-            desc=desc,
-            img=img,
-            rate=rate,
-            qty_in_gm=qty_in_gm
-        )
-        product.save()
-        return HttpResponse("<script>alert('Product added successfully!');window.location='/adminhome/';</script>")
-    else:
-        categories = Cattegory.objects.all()
-        template = loader.get_template("Adminapp/admin_add_product.html")
-        context = {'categories': categories}
-        return HttpResponse(template.render(context, request))       
-    
-
-# def added_products(request):
-#     products = Admin_Products.objects.all()
-#     return render(request, 'added_products.html', {'products': products})
+        return HttpResponse(template.render(context, request))            
 
 def added_products(request):
     products = Admin_Products.objects.all().order_by('-id')  # Latest first
@@ -165,7 +72,6 @@ def added_products(request):
             'qty': f"{product.qty_in_gm} gm" if product.qty_in_gm else f"{product.qty_in_kg} kg" if hasattr(product, 'qty_in_kg') else "",
         })
     return render(request, 'added_products.html', {'products': product_list})
-
 
 def view_product(request):
     if request.method == 'POST':
@@ -187,12 +93,24 @@ def view_product(request):
         products = Admin_Products.objects.all()
         return render(request, 'view_products.html', {'products': products})
     
-from django.shortcuts import redirect
 
-from django.shortcuts import redirect
 
-def logout(request):
-    request.session.pop('uid', None)
-    request.session.pop('staff_id', None)
-    # Add other session keys if you use them for admin, e.g. 'admin_id'
-    return HttpResponse("<script>alert('Logged out successfully!');window.location='/';</script>")
+def stocks(request):
+    if request.method == 'POST':
+        # Get data from the POST request
+        date = request.POST.get('date').datetime.now()
+        pname = request.POST.get('pname')
+        qty_in_kg = request.POST.get('qty_in_kg')
+        price = request.POST.get('price')
+        status = request.POST.get('status', 'Available')  # Default to 'Available' if not supplied
+
+        # Create a new stock entry
+        Stocks.objects.create(pname=pname, qty_in_kg=qty_in_kg, price=price, status=status)
+
+        # Return a success message
+        return HttpResponse("<script>alert('Stock added successfully!');window.location='/stocks/';</script>")
+    else:
+        # Handle GET request to display stocks
+        stocks = Stocks.objects.all()
+        return render(request, 'Adminapp/mystocks.html', {'stocks': stocks})
+    
