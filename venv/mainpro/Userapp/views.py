@@ -34,7 +34,7 @@ def user_register(request):
 
         uploadfile = request.FILES.get('uploadfile')
 
-        # Validate required fields
+        #Validate required fields
         for field in ['fname', 'sname', 'email', 'phone', 'gender', 'address', 'username', 'password']:
             if not data[field]:
                 errors[field] = f"{field.capitalize()} is required."
@@ -42,35 +42,35 @@ def user_register(request):
         if not uploadfile:
             errors['uploadfile'] = "Please upload a document."
 
-        # Email validation
+        #Email validation
         if 'email' not in errors:
             try:
                 validate_email(data['email'])
             except ValidationError:
                 errors['email'] = 'Enter a valid email address.'
 
-        # Phone validation (numbers and +)
+        #Phone validation (numbers and +)
         if 'phone' not in errors and not re.match(r'^\+?[0-9]{10,15}$', data['phone']):
             errors['phone'] = 'Enter a valid phone number (10-15 digits, numbers and + only).'
 
-        # Location validation
+        #Location validation
         if not data['location']:
             errors['location'] = 'Location is required.'
         elif data['location'] not in dict(Reg.LOCATION_CHOICES):
             errors['location'] = 'Invalid location selected.'
 
-        # File validation
+        #File validation
         if uploadfile:
-            if uploadfile.size > 2 * 1024 * 1024:  # 2MB limit
+            if uploadfile.size > 2 * 1024 * 1024:  #2MB limit
                 errors['uploadfile'] = "File too large (max 2MB)"
             elif uploadfile.content_type != 'application/pdf':
                 errors['uploadfile'] = "Only PDF files are allowed"
 
-        # Username validation (max 16 chars)
+        #Username validation (max 16 chars)
         if 'username' not in errors and len(data['username']) > 16:
             errors['username'] = 'Username must be 16 characters or less.'
 
-        # Password validation (complexity)
+        #Password validation (complexity)
         password = data['password']
         if 'password' not in errors:
             if len(password) < 8:
@@ -84,7 +84,7 @@ def user_register(request):
             elif not re.search(r'[^A-Za-z0-9]', password):
                 errors['password'] = 'Password must contain at least 1 special character.'
 
-        # Check if username or email already exists
+        #Check if username or email already exists
         if 'username' not in errors and Reg.objects.filter(username=data['username']).exists():
             errors['username'] = 'Username already taken.'
         if 'email' not in errors and Reg.objects.filter(email=data['email']).exists():
@@ -130,7 +130,7 @@ def user_login(request):
         if user.status != 'approved':
             messages.error(request, "Your registration is not authorized by the administrator.")
             return redirect('user_login')
-        # Login success: store user id in session
+        #Login success: store user id in session
         request.session['user_id'] = user.id
         messages.success(request, f"Welcome, {user.fname}!")
         return redirect('userhome')
