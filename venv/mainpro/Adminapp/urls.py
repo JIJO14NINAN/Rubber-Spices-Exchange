@@ -28,5 +28,6 @@ urlpatterns = [
     path('my_staff/', Adminapp.views.my_staff, name='my_staff'), 
     path('admin_add_category/',Adminapp.views.admin_add_category,name='admin_add_category'),
     path('view_product/',Adminapp.views.view_product,name='view_product'),
+    path('my_stocks/', Adminapp.views.my_stocks, name='my_stocks'),
     path('logout/', Adminapp.views.logout, name='logout'),
 ]

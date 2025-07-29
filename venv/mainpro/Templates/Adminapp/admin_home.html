@@ -21,7 +21,7 @@
                 <a href="">Task Management</a>
                 <a href="{% url 'my_staff' %}">My Staff</a>
                 <a href="">Add Category</a>
-                <a href="">My Stocks</a>
+                <a href="{% url 'my_stocks' %}">My Stocks</a>
                 <a href="">Added Products</a>
                 {% for user in users %}
                 <a href="{% url 'assign_task' user_id=user.id %}">Assign Staff</a>

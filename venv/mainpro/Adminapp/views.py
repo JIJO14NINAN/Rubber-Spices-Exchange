@@ -1,9 +1,10 @@
 # views.py
 
+from datetime import date
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.template import loader
-from .models import Cattegory, Subcattegory, Admin_Products
+from .models import Cattegory, Subcattegory, Admin_Products, Stocks
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
@@ -187,3 +188,6 @@ def view_product(request):
         return render(request, 'view_products.html', {'products': products})
     
 
+def my_stocks(request):
+    mystocks = Stocks.objects.all()
+    return render(request, 'Adminapp/mystocks.html', {'mystocks': mystocks})

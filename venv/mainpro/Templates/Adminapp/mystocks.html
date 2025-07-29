@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stocks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f6f7fb;
+            margin: 0;
+            min-height: 100vh;
+            color: #222;
+        }
+
+        header {
+            background: #232f3e;
+            color: #fff;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(35, 47, 62, 0.08);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 26px;
+            color: #ffb300;
+            letter-spacing: 1px;
+        }
+
+        .back-btn {
+            background: #ffb300;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #e0a300;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #232f3e;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #232f3e;
+            color: #fff;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        td {
+            background: #f9f9f9;
+            color: #444;
+        }
+
+        .stock-status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .available {
+            background: #e6f7e6;
+            color: #2e7d32;
+        }
+
+        .low {
+            background: #fff8e1;
+            color: #ff8f00;
+        }
+
+        .critical {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #232f3e;
+            color: #fff;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logo">Stocks</div>
+        <button class="back-btn" onclick="window.history.back();">
+            <i class="fas fa-arrow-left"></i> Back
+        </button>
+    </header>
+    <div class="container">
+        <div class="main-content">
+            <h1>Current Stock Inventory</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Product Name</th>
+                        <th>Quantity (kg)</th>
+                        <th>Unit Price ($)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in mystocks %}
+                    <tr>
+                        <td>{{ stock.id }}</td>
+                        <td>{{ stock.date }}</td>
+                        <td>{{ stock.pname }}</td>
+                        <td>{{ stock.qty_in_kg }}</td>
+                        <td>{{ stock.price }}</td>
+                        <td>
+                            <span class="stock-status 
+                            {% if stock.status == 'Available' %} available 
+                            {% elif stock.status == 'Low' %} low 
+                            {% else %} critical 
+                            {% endif %}">
+                            {{ stock.status }}</span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 Rubber & Spices Exchange. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
