@@ -5,7 +5,7 @@ from Userapp.models import User_Products
 class Staff(models.Model):
     name=models.CharField(max_length=100)
     gender=models.CharField(max_length=10)
-    pho=models.IntegerField()
+    pho = models.CharField(max_length=15)
     email=models.EmailField(max_length=100)
     photo=models.FileField(upload_to='file')
     addr=models.CharField(max_length=100)

@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Employees Dashboard</title>
+    <link rel="stylesheet" href="{% static 'Adminapp/css/My_Staff.css' %}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    </style>
+</head>
+
+<body>
+    <div class="container" role="main" aria-label="Employee Dashboard">
+
+        <script>
+            function navigateToAddStaff() {
+                window.location.href = "{% url 'admin_add_staff' %}";
+            }
+        </script>
+        <header class="header">
+            <div class="header-left">
+                <h1>Staffs</h1>
+                <p>Complete list of Staffs</p>
+            </div>
+            <button class="btn-add" aria-label="Add employee" type="button" onclick="navigateToAddStaff()">
+                <svg fill="none" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                    <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                </svg>
+                Add Staff
+            </button>
+        </header>
+
+        <section class="info-cards" aria-label="Employee summary statistics">
+            <article class="card" aria-labelledby="total-employees-label total-employees-value">
+                <div class="card-inner">
+                    <div class="icon-bg" aria-hidden="true">
+                        <svg fill="none" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" />
+                            <path d="M5.5 21a8.38 8.38 0 0 1 13 0" stroke="currentColor" />
+                        </svg>
+                    </div>
+                    <div class="card-text">
+                        <div id="total-employees-label" class="card-label">Total employees</div>
+                        <div id="total-employees-value" class="card-value">35</div>
+                    </div>
+                </div>
+                <button class="card-options" aria-label="More options for total employees" title="More options">
+                    <svg fill="none" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <circle cx="12" cy="5" r="1.5" stroke="currentColor" />
+                        <circle cx="12" cy="12" r="1.5" stroke="currentColor" />
+                        <circle cx="12" cy="19" r="1.5" stroke="currentColor" />
+                    </svg>
+                </button>
+            </article>
+
+            <article class="card" aria-labelledby="active-employees-label active-employees-value">
+                <div class="card-inner">
+                    <div class="icon-bg" aria-hidden="true">
+                        <svg fill="none" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <circle cx="12" cy="7" r="4" stroke="currentColor" />
+                            <path d="M5.5 21a8.38 8.38 0 0 1 13 0" stroke="currentColor" />
+                        </svg>
+                    </div>
+                    <div class="card-text">
+                        <div id="active-employees-label" class="card-label">Active Staff</div>
+                        <div id="active-employees-value" class="card-value">28</div>
+                    </div>
+                </div>
+                <button class="card-options" aria-label="More options for active employees" title="More options">
+                    <svg fill="none" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <circle cx="12" cy="5" r="1.5" stroke="currentColor" />
+                        <circle cx="12" cy="12" r="1.5" stroke="currentColor" />
+                        <circle cx="12" cy="19" r="1.5" stroke="currentColor" />
+                    </svg>
+                </button>
+            </article>
+        </section>
+
+        <div class="table-wrapper" role="region" aria-label="Employee list table">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col" class="checkbox-column">
+                            <input type="checkbox" name="select-all" aria-label="Select all employees" />
+                        </th>
+                        <th scope="col" aria-sort="none">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone no / Email</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" class="action-column" aria-label="Actions"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example rows, replace with dynamic content -->
+                    <tr tabindex="0" aria-selected="false">
+                        <td class="checkbox-column">
+                            <input type="checkbox" name="select-25" aria-label="Select Amanda Henry" />
+                        </td>
+                        <td>25</td>
+                        <td class="avatar-column">
+                            <div class="employee-info">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/3e04252d-0a64-4021-b5bd-7f6abd22edc5.png"
+                                    alt="Portrait of Amanda Henry" class="employee-avatar" onerror="this.style.display='none';" />
+                                <div>
+                                    <div class="employee-name">Amanda Henry</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="phone-email-cell">
+                            <span class="phone">07700 107123</span>
+                            <span>amanda.henry@example.com</span>
+                        </td>
+                        <td class="status-cell">
+                            <span class="status-badge status-active" aria-label="Active status">
+                                <span class="status-indicator"></span> Active
+                            </span>
+                        </td>
+                        <td class="action-column">
+                            <button class="action-button" aria-label="More options for Amanda Henry" title="More options" type="button">
+                                <svg fill="none" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                    <circle cx="12" cy="5" r="1.5" stroke="currentColor" />
+                                    <circle cx="12" cy="12" r="1.5" stroke="currentColor" />
+                                    <circle cx="12" cy="19" r="1.5" stroke="currentColor" />
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+</html>

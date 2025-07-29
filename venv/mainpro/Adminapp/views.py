@@ -11,6 +11,12 @@ from .forms import CustomAdminLoginForm
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.hashers import check_password
 from Userapp.models import Reg 
+from Staffapp.models import Staff
+from django.contrib import messages
+import re
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 
 def index(request):
     template = loader.get_template('Index.html')
@@ -37,7 +43,7 @@ def logout(request):
     auth_logout(request)
     return redirect('index')
 
-# Decorator to check if user is superuser
+#Decorator to check if user is superuser
 def superuser_required(view_func):
     decorated_view_func = login_required(user_passes_test(lambda u: u.is_superuser, login_url='admin_login')(view_func))
     return decorated_view_func
@@ -66,6 +72,75 @@ def view_users_admin(request):
     #Show only users with status 'pending'
     users = Reg.objects.filter(status='pending').order_by('id')
     return render(request, 'Adminapp/view_users_admin.html', {'users': users, 'message': message})
+
+@superuser_required
+def admin_add_staff(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        gender = request.POST.get('gender')
+        email = request.POST.get('email')
+        pho = request.POST.get('pho')
+        addr = request.POST.get('addr')
+        photo = request.FILES.get('photo')
+        uname = request.POST.get('uname')
+        pswd = request.POST.get('pswd')
+
+        # Check all fields are filled
+        if not all([name, gender, email, pho, addr, photo, uname, pswd]):
+            messages.error(request, "Please fill all fields.")
+            return render(request, 'Adminapp/admin_add_staff.html')
+
+        # Validate email
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.error(request, "Enter a valid email address.")
+            return render(request, 'Adminapp/admin_add_staff.html')
+
+        # Validate phone number (basic: digits only, length 7-15)
+        if not re.fullmatch(r'\d{7,15}', pho):
+            messages.error(request, "Enter a valid phone number (7-15 digits).")
+            return render(request, 'Adminapp/admin_add_staff.html')
+
+        # Validate password (basic: min 8 chars, at least one digit and one letter)
+        if len(pswd) < 8:
+            messages.error(request, "Password must be at least 8 characters long.")
+            return render(request, 'Adminapp/admin_add_staff.html')
+
+        if not re.search(r'[A-Za-z]', pswd) or not re.search(r'\d', pswd):
+            messages.error(request, "Password must contain at least one letter and one number.")
+            return render(request, 'Adminapp/admin_add_staff.html')
+
+        # Check if username already exists
+        if User.objects.filter(username=uname).exists():
+            messages.error(request, "Username already exists.")
+            return render(request, 'Adminapp/admin_add_staff.html')
+
+        # Create Django User for staff
+        user = User.objects.create_user(username=uname, password=pswd, email=email, first_name=name)
+        user.save()
+
+        # Create Staff object
+        staff = Staff(
+            name=name,
+            gender=gender,
+            email=email,
+            pho=pho,
+            addr=addr,
+            photo=photo
+        )
+        staff.save()
+
+        messages.success(request, "Staff added successfully.")
+        return redirect('adminhome')
+
+    return render(request, 'Adminapp/admin_add_staff.html')
+
+@superuser_required
+def my_staff(request):
+    # Retrieve all staff members
+    staff_members = Staff.objects.all()  # Adjust the query as needed
+    return render(request, 'Adminapp/my_staff.html', {'staff_members': staff_members})
 
 def admin_add_category(request):
     if request.method == 'POST':

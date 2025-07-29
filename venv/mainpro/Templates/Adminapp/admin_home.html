@@ -12,25 +12,30 @@
 </head>
 
 <body>
-    <nav>
-        <div style="font-family: 'Times New Roman', Times, serif; display: flex; align-items: center;">
-            <a href="{% url 'view_user' %}">View Users</a>
-            <a href="">Add Staff</a>
-            <a href="">Add Category</a>
-            <a href="">My Stocks</a>
-            <a href="">Added Products</a>
-            {% for user in users %}
-            <a href="{% url 'assign_task' user_id=user.id %}">Assign Staff</a>
-            {% endfor %}
-            <a href="{% url 'logout' %}">Logout</a>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <h1 class="logo">Admin Panel</h1>
+            <div class="nav-links">
+                <a href="{% url 'view_user' %}">View Users</a>
+                <a href="">View Factory</a>
+                <a href="">Task Management</a>
+                <a href="{% url 'my_staff' %}">My Staff</a>
+                <a href="">Add Category</a>
+                <a href="">My Stocks</a>
+                <a href="">Added Products</a>
+                {% for user in users %}
+                <a href="{% url 'assign_task' user_id=user.id %}">Assign Staff</a>
+                {% endfor %}
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
         </div>
     </nav>
     <div class="content">
         <h1>Welcome to Admin Dashboard</h1>
-        <!-- ...existing code... -->
     </div>
     <footer>
-        <p>&copy; 2025 Rubber & Spices. All Rights Reserved. | <a href="">Privacy Policy</a> | <a href="">Terms of
-                Service</a></p>
+        <p>&copy; 2025 Rubber & Spices. All Rights Reserved. | <a href="">Privacy Policy</a> | <a href="">Terms of Service</a></p>
     </footer>
 </body>
+
+</html>
