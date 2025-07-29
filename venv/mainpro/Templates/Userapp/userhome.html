@@ -1,3 +1,4 @@
+<!-- userhome.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -5,114 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            background-image: url('{% static "Userapp/images/userhome.jpg" %}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            animation: fadeIn 1s ease-in-out;
-        }
-        nav {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #f2f0f0;
-        }
-        nav a {
-            text-decoration: none;
-            color: #f2f0f0;
-            font-size: 18px;
-            margin: 0 15px;
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
-        nav a:hover {
-            text-decoration: underline;
-            color: #ffcc00;
-            transform: scale(1.1);
-        }
-        .content {
-            text-align: center;
-            color: #f2f0f0;
-        }
-        p {
-            margin: 20px 0;
-        }
-        footer {
-            background-color: rgba(0, 0, 0, 0.8);
-            color: #f2f0f0;
-            text-align: center;
-            padding: 20px 0;
-            font-size: 14px;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-        }
-        footer a {
-            color: #ffcc00;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
-        .buy-button {
-            display: inline-block;
-            background-color: #28a745;
-            color: #fff;
-            font-size: 18px;
-            font-weight: bold;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            text-align: center;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .buy-button:hover {
-            background-color: #218838;
-            transform: scale(1.05);
-        }
-        .buy-button:active {
-            background-color: #1e7e34;
-            transform: scale(0.98);
-        }
-        @media (max-width: 600px) {
-            nav a {
-                font-size: 16px;
-                margin: 0 10px;
-            }
-            .buy-button {
-                font-size: 16px;
-                padding: 8px 16px;
-            }
-        }
-        @keyframes fadeIn {
-            0% {
-                opacity: 0;
-            }
-            100% {
-                opacity: 1;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'Userapp/css/user_home.css' %}">
 </head>
 <body>
     <nav>
@@ -126,7 +20,7 @@
     <div class="content">
         <h1>Welcome to Rubber & Spices</h1>
         <p>Explore our products and services.</p>
-        <a href="{% url 'user_add_product' %}" class="buy-button">Sale Product</a>
+        <a href="" class="buy-button">Sale Product</a>
         <p>For any inquiries, please contact us.</p>
     </div>
     <footer>

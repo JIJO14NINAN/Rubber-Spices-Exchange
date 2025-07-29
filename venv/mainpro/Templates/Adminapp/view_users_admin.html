@@ -1,3 +1,5 @@
+<!-- view_users_admin.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +9,7 @@
     <title>View Users</title>
     <link rel="stylesheet" href="{% static 'Adminapp/css/view_users_admin.css' %}">
     <style>
-        
+
     </style>
 </head>
 
@@ -15,11 +17,10 @@
     <nav>
         <div style="font-family: 'Times New Roman', Times, serif;">
             <a href="{% url 'adminhome' %}">Home</a>
-            <a href="{% url 'admin_add_staff' %}">Add Staff</a>
-            <a href="{% url 'admin_add_category' %}">Add Category</a>
-            <a href="{% url 'admin_add_product' %}">Add Products</a>
-            <a href="{% url 'user_add_products_view' %}">View Products</a>
-            
+            <a href="">Add Staff</a>
+            <a href="">Add Category</a>
+            <a href="">Add Products</a>
+            <a href="">View Products</a>
         </div>
     </nav>
     <h1>View Users</h1>
@@ -46,8 +47,8 @@
                 <td>{{ user.id }}</td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.pho }}</td>
-                <td>{{ user.status }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.status|capfirst }}</td>
                 <td>
                     <form method="POST" action="{% url 'view_user' %}" class="action-buttons">
                         {% csrf_token %}

@@ -10,7 +10,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from .forms import CustomAdminLoginForm
 from django.contrib.auth import logout as auth_logout
-from datetime import datetime
+from django.contrib.auth.hashers import check_password
+from Userapp.models import Reg 
 from Adminapp.models import Stocks
 
 def index(request):
@@ -47,8 +48,27 @@ def superuser_required(view_func):
 def adminhome(request):
     return render(request, "Adminapp/admin_home.html")
 
+@superuser_required
+def view_users_admin(request):
+    message = ''
+    if request.method == 'POST':
+        uid = request.POST.get('uid')
+        action = request.POST.get('action')
+        try:
+            user = Reg.objects.get(id=uid)
+            if action == 'activate':
+                user.status = 'approved'
+                user.save()
+                message = f"User {user.username} approved successfully."
+            elif action == 'cancel':
+                user.delete()
+                message = f"User {user.username} rejected and removed."
+        except Reg.DoesNotExist:
+            message = "User not found."
+    #Show only users with status 'pending'
+    users = Reg.objects.filter(status='pending').order_by('id')
+    return render(request, 'Adminapp/view_users_admin.html', {'users': users, 'message': message})
 
-    
 def admin_add_category(request):
     if request.method == 'POST':
         cname = request.POST.get('cat')
@@ -94,23 +114,6 @@ def view_product(request):
         return render(request, 'view_products.html', {'products': products})
     
 
-
-def stocks(request):
-    if request.method == 'POST':
-        # Get data from the POST request
-        date = request.POST.get('date').datetime.now()
-        pname = request.POST.get('pname')
-        qty_in_kg = request.POST.get('qty_in_kg')
-        price = request.POST.get('price')
-        status = request.POST.get('status', 'Available')  # Default to 'Available' if not supplied
-
-        # Create a new stock entry
-        Stocks.objects.create(pname=pname, qty_in_kg=qty_in_kg, price=price, status=status)
-
-        # Return a success message
-        return HttpResponse("<script>alert('Stock added successfully!');window.location='/stocks/';</script>")
-    else:
-        # Handle GET request to display stocks
-        stocks = Stocks.objects.all()
-        return render(request, 'Adminapp/mystocks.html', {'stocks': stocks})
-    
+def my_stocks(request):
+    mystocks = Stocks.objects.all()
+    return render(request, 'Adminapp/mystocks.html', {'mystocks': mystocks})
