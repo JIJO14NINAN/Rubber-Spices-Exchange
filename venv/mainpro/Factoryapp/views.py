@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .forms import FactoryForm
 from django.shortcuts import redirect
+from django.contrib.auth import login
 from django.contrib.auth import logout
 import re
 
@@ -38,7 +39,7 @@ def factory_register(request):
         if len(owner) < 3 or not re.match(r'^[A-Za-z\s]+$', owner):
             errors['owner'] = "Please enter a valid owner name (min 3 characters, letters only)."
         if not re.match(r'^[^@]+@[^@]+\.[^@]+$', email):
-            errors['email'] = "Please enter a valid email address."
+            errors['email'] = "The entered email is invalid. Please enter a valid email address."
         if not re.match(r'^[0-9]{10}$', contact):
             errors['contact'] = "Please enter a valid 10-digit contact number."
         if not license_file:
@@ -71,50 +72,45 @@ def factory_register(request):
 
    
 
-def factory_login(form_data):
-    username = form_data.get('factory_username')
-    password = form_data.get('factory_password')
+def factory_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('factory_username')
+        password = request.POST.get('factory_password')
 
-    # Validation errors
-    errors = {}
-    errors = {}
+        # Validation errors
+        errors = {}
 
-    # Validate username/email
-    if not username:
-        errors['username'] = 'Username/Email is required.'
-    elif not re.match(r'^[A-Za-z0-9@._-]+$', username):
-        errors['username'] = 'Invalid username/email format.'
+        # Validate username/email
+        if not username:
+            errors['username'] = 'Username/Email is required.'
+        elif not re.match(r'^[A-Za-z0-9@._-]+$', username):
+            errors['username'] = 'Invalid username/email format.'
 
-    # Validate password
-    if not password:
-        errors['password'] = 'Password is required.'
-    elif len(password) < 6:
-        errors['password'] = 'Password must be at least 6 characters long.'
+        # Validate password
+        if not password:
+            errors['password'] = 'Password is required.'
+        elif len(password) < 6:
+            errors['password'] = 'Password must be at least 6 characters long.'
 
-    # Return errors if any
-    if errors:
-        return {
-            'success': False,
-            'errors': errors
-        }
+        # Return errors if any
+        if errors:
+            return render(request, 'FactoryApp/factory_login.html', {'success': False, 'errors': errors})
 
-    # Example hardcoded credentials (replace with database check)
-    valid_credentials = {
-        "factory_admin": "securepassword123"
-    }
+        # Authenticate against the Factory model
+        try:
+            factory = Factory.objects.get(email=username)  # Assuming email is used for login
+            if factory.password == password:  # Replace with hashed password check if applicable
+                login(request, factory)  # Log the factory in
+                return redirect('factory_home')  # Redirect to the factory home page
+            else:
+                errors['credentials'] = 'Invalid username/password'
+        except Factory.DoesNotExist:
+            errors['credentials'] = 'Invalid username/password'
 
-    # Check if the username exists and the password matches
-    if username in valid_credentials and password == valid_credentials[username]:
-        # Return success (simulate redirection by returning a target URL)
-        return {
-            'success': True,
-            'redirect_url': 'factory_home.html'  # Replace with actual path/URL
-        }
-    else:
-        return {
-            'success': False,
-            'errors': {'credentials': 'Invalid username/password'}
-        }
+        return render(request, 'FactoryApp/factory_login.html', {'success': False, 'errors': errors})
+
+    return render(request, 'FactoryApp/factory_login.html')  # Render login form for GET requests
+
 
 
    
@@ -149,6 +145,7 @@ def factory_profile(request):
     }
     
     return render(request, 'FactoryApp/factory_profile.html', context)
+
 
 
 def factory_signout(request):

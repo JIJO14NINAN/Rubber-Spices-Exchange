@@ -25,4 +25,5 @@ urlpatterns = [
     path('factory_home/', Factoryapp.views.factory_home, name='factory_home'), 
     path('factory_profile/', Factoryapp.views.factory_profile, name='factory_profile'),
     path('factory_stocks/', Factoryapp.views.factory_stocks, name='factory_stocks'),
+    path('factory_signout/',Factoryapp.views.factory_signout, name='factory_signout'),
 ]
