@@ -31,7 +31,7 @@ def admin_login(request):
             user = form.get_user()
             if user.is_active and user.is_superuser:
                 login(request, user)
-                return redirect('adminhome')  # or your admin dashboard URL name
+                return redirect('adminhome') 
             else:
                 messages.error(request, "You do not have admin access.")
         else:
@@ -89,33 +89,29 @@ def admin_add_staff(request):
         # Check all fields are filled
         if not all([name, gender, email, pho, addr, photo, uname, pswd]):
             messages.error(request, "Please fill all fields.")
-            return render(request, 'Adminapp/admin_add_staff.html')
+            return render(request, 'Adminapp/admin_add_staff.html', {'form_data': request.POST})
 
         # Validate email
         try:
             validate_email(email)
         except ValidationError:
             messages.error(request, "Enter a valid email address.")
-            return render(request, 'Adminapp/admin_add_staff.html')
+            return render(request, 'Adminapp/admin_add_staff.html', {'form_data': request.POST})
 
         # Validate phone number (basic: digits only, length 7-15)
         if not re.fullmatch(r'\d{7,15}', pho):
             messages.error(request, "Enter a valid phone number (7-15 digits).")
-            return render(request, 'Adminapp/admin_add_staff.html')
+            return render(request, 'Adminapp/admin_add_staff.html', {'form_data': request.POST})
 
         # Validate password (basic: min 8 chars, at least one digit and one letter)
-        if len(pswd) < 8:
-            messages.error(request, "Password must be at least 8 characters long.")
-            return render(request, 'Adminapp/admin_add_staff.html')
-
-        if not re.search(r'[A-Za-z]', pswd) or not re.search(r'\d', pswd):
-            messages.error(request, "Password must contain at least one letter and one number.")
-            return render(request, 'Adminapp/admin_add_staff.html')
+        if len(pswd) < 8 or not re.search(r'[A-Za-z]', pswd) or not re.search(r'\d', pswd):
+            messages.error(request, "Password must be at least 8 characters long and contain at least one letter and one number.")
+            return render(request, 'Adminapp/admin_add_staff.html', {'form_data': request.POST})
 
         # Check if username already exists
         if User.objects.filter(username=uname).exists():
             messages.error(request, "Username already exists.")
-            return render(request, 'Adminapp/admin_add_staff.html')
+            return render(request, 'Adminapp/admin_add_staff.html', {'form_data': request.POST})
 
         # Create Django User for staff
         user = User.objects.create_user(username=uname, password=pswd, email=email, first_name=name)
@@ -140,8 +136,17 @@ def admin_add_staff(request):
 @superuser_required
 def my_staff(request):
     # Retrieve all staff members
-    staff_members = Staff.objects.all()  # Adjust the query as needed
-    return render(request, 'Adminapp/my_staff.html', {'staff_members': staff_members})
+    staff_members = Staff.objects.all()
+    
+    # Calculate total staff and active staff count
+    total_staff = staff_members.count()
+    active_staff = total_staff  # Assuming all staff are active; adjust logic if needed
+
+    return render(request, 'Adminapp/my_staff.html', {
+        'staff_members': staff_members,
+        'total_staff': total_staff,
+        'active_staff': active_staff,
+    })
 
 def admin_add_category(request):
     if request.method == 'POST':
